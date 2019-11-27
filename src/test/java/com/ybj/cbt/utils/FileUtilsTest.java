@@ -22,6 +22,13 @@ class FileUtilsTest {
       FileUtils.copyURLToFile(url,desc );
   }
 
+    @Test
+    public void testCopyGif() throws IOException {
+        File desc=new File("C:\\Users\\yuanbaojian\\Desktop\\dataTables.rowGroup.min.js");
+        URL url=new URL("https://cdn.datatables.net/rowgroup/1.1.1/js/dataTables.rowGroup.min.js");
+        FileUtils.copyURLToFile(url,desc );
+    }
+
   @Test
   public void testMkdir(){
     String directoryPath="C:\\Users\\baojian.yuan\\Desktop\\dir";
