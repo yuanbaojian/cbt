@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ybj.cbt.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.ybj.cbt.model.User">
+    <id column="USER_ID" jdbcType="DECIMAL" property="userId" />
+    <result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName" />
+    <result column="USER_FULL_NAME" jdbcType="VARCHAR" property="userFullName" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="MOBILE_PHONE" jdbcType="VARCHAR" property="mobilePhone" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_BY" jdbcType="DECIMAL" property="createBy" />
+    <result column="UPDATED_BY" jdbcType="DECIMAL" property="updatedBy" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="FAIL_COUNT" jdbcType="DECIMAL" property="failCount" />
+    <result column="LAST_LOGIN_TIME" jdbcType="TIMESTAMP" property="lastLoginTime" />
+    <result column="SECURITY_LEVEL" jdbcType="DECIMAL" property="securityLevel" />
+    <result column="USER_TYPE" jdbcType="DECIMAL" property="userType" />
+    <result column="GENDER" jdbcType="VARCHAR" property="gender" />
+    <result column="EDUCATION" jdbcType="VARCHAR" property="education" />
+    <result column="BIRTHDAY" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="ID_NO" jdbcType="VARCHAR" property="idNo" />
+    <result column="COACH_TYPE" jdbcType="DECIMAL" property="coachType" />
+    <result column="WORK_YEAR" jdbcType="FLOAT" property="workYear" />
+    <result column="MAJOR_TYPE" jdbcType="VARCHAR" property="majorType" />
+    <result column="COMPANY" jdbcType="VARCHAR" property="company" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="DELETED" jdbcType="DECIMAL" property="deleted" />
+    <result column="ORG_ID" jdbcType="DECIMAL" property="orgId" />
+    <result column="ORG_NAME" jdbcType="VARCHAR" property="orgName" />
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    USER_ID, LOGIN_NAME, USER_FULL_NAME, PASSWORD, EMAIL, MOBILE_PHONE, STATUS, CREATE_TIME,
+    CREATE_BY, UPDATED_BY, UPDATE_TIME, FAIL_COUNT, LAST_LOGIN_TIME, SECURITY_LEVEL,
+    USER_TYPE, GENDER, EDUCATION, BIRTHDAY, ID_NO, COACH_TYPE, WORK_YEAR, MAJOR_TYPE,
+    COMPANY, DELETED, REMARK, ORG_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from TBL_USER
+    where USER_ID = #{userId,jdbcType=DECIMAL}
+  </select>
+
+
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from TBL_USER
+    where USER_ID = #{userId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ybj.cbt.model.User">
+    insert into TBL_USER (USER_ID, LOGIN_NAME, USER_FULL_NAME,
+                          PASSWORD, EMAIL, MOBILE_PHONE,
+                          STATUS, CREATE_TIME, CREATE_BY,
+                          UPDATED_BY, UPDATE_TIME, FAIL_COUNT,
+                          LAST_LOGIN_TIME, SECURITY_LEVEL, USER_TYPE,
+                          GENDER, EDUCATION, BIRTHDAY,
+                          ID_NO, COACH_TYPE, WORK_YEAR,
+                          MAJOR_TYPE, COMPANY, REMARK, DELETED,
+                          ORG_ID)
+    values (#{userId,jdbcType=DECIMAL}, #{loginName,jdbcType=VARCHAR}, #{userFullName,jdbcType=VARCHAR},
+            #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{mobilePhone,jdbcType=VARCHAR},
+            #{status,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=DECIMAL},
+            #{updatedBy,jdbcType=DECIMAL}, #{updateTime,jdbcType=TIMESTAMP}, #{failCount,jdbcType=DECIMAL},
+            #{lastLoginTime,jdbcType=TIMESTAMP}, #{securityLevel,jdbcType=DECIMAL}, #{userType,jdbcType=DECIMAL},
+            #{gender,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP},
+            #{idNo,jdbcType=VARCHAR}, #{coachType,jdbcType=DECIMAL}, #{workYear,jdbcType=FLOAT},
+            #{majorType,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, #{deleted,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR},
+            #{orgId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective"  parameterType="com.ybj.cbt.model.User">
+    <selectKey resultType="java.lang.Integer" order="BEFORE"
+               keyProperty="userId">
+      SELECT TBL_USER_SEQUENCE.nextval AS USER_ID FROM DUAL
+    </selectKey>
+    insert into TBL_USER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="loginName != null">
+        LOGIN_NAME,
+      </if>
+      <if test="userFullName != null">
+        USER_FULL_NAME,
+      </if>
+      <if test="password != null">
+        PASSWORD,
+      </if>
+      <if test="email != null">
+        EMAIL,
+      </if>
+      <if test="mobilePhone != null">
+        MOBILE_PHONE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null">
+        CREATE_BY,
+      </if>
+      <if test="updatedBy != null">
+        UPDATED_BY,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="failCount != null">
+        FAIL_COUNT,
+      </if>
+      <if test="lastLoginTime != null">
+        LAST_LOGIN_TIME,
+      </if>
+      <if test="securityLevel != null">
+        SECURITY_LEVEL,
+      </if>
+      <if test="userType != null">
+        USER_TYPE,
+      </if>
+      <if test="gender != null">
+        GENDER,
+      </if>
+      <if test="education != null">
+        EDUCATION,
+      </if>
+      <if test="birthday != null">
+        BIRTHDAY,
+      </if>
+      <if test="idNo != null">
+        ID_NO,
+      </if>
+      <if test="coachType != null">
+        COACH_TYPE,
+      </if>
+      <if test="workYear != null">
+        WORK_YEAR,
+      </if>
+      <if test="majorType != null">
+        MAJOR_TYPE,
+      </if>
+      <if test="company != null">
+        COMPANY,
+      </if>
+      <if test="deleted != null">
+        DELETED,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="orgId != null">
+        ORG_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="loginName != null">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="userFullName != null">
+        #{userFullName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null">
+        #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=DECIMAL},
+      </if>
+      <if test="updatedBy != null">
+        #{updatedBy,jdbcType=DECIMAL},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="failCount != null">
+        #{failCount,jdbcType=DECIMAL},
+      </if>
+      <if test="lastLoginTime != null">
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="securityLevel != null">
+        #{securityLevel,jdbcType=DECIMAL},
+      </if>
+      <if test="userType != null">
+        #{userType,jdbcType=DECIMAL},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="idNo != null">
+        #{idNo,jdbcType=VARCHAR},
+      </if>
+      <if test="coachType != null">
+        #{coachType,jdbcType=DECIMAL},
+      </if>
+      <if test="workYear != null">
+        #{workYear,jdbcType=FLOAT},
+      </if>
+      <if test="majorType != null">
+        #{majorType,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ybj.cbt.model.User">
+    update TBL_USER
+    <set>
+      <if test="loginName != null">
+        LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="userFullName != null">
+        USER_FULL_NAME = #{userFullName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null">
+        MOBILE_PHONE = #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        CREATE_BY = #{createBy,jdbcType=DECIMAL},
+      </if>
+      <if test="updatedBy != null">
+        UPDATED_BY = #{updatedBy,jdbcType=DECIMAL},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="failCount != null">
+        FAIL_COUNT = #{failCount,jdbcType=DECIMAL},
+      </if>
+      <if test="lastLoginTime != null">
+        LAST_LOGIN_TIME = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="securityLevel != null">
+        SECURITY_LEVEL = #{securityLevel,jdbcType=DECIMAL},
+      </if>
+      <if test="userType != null">
+        USER_TYPE = #{userType,jdbcType=DECIMAL},
+      </if>
+      <if test="gender != null">
+        GENDER = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        EDUCATION = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        BIRTHDAY = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="idNo != null">
+        ID_NO = #{idNo,jdbcType=VARCHAR},
+      </if>
+      <if test="coachType != null">
+        COACH_TYPE = #{coachType,jdbcType=DECIMAL},
+      </if>
+      <if test="workYear != null">
+        WORK_YEAR = #{workYear,jdbcType=FLOAT},
+      </if>
+      <if test="majorType != null">
+        MAJOR_TYPE = #{majorType,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        COMPANY = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null">
+        DELETED = #{deleted,jdbcType=DECIMAL},
+      </if>
+      <if test="orgId != null">
+        ORG_ID = #{orgId,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where USER_ID = #{userId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ybj.cbt.model.User">
+    update TBL_USER
+    set LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+        USER_FULL_NAME = #{userFullName,jdbcType=VARCHAR},
+        PASSWORD = #{password,jdbcType=VARCHAR},
+        EMAIL = #{email,jdbcType=VARCHAR},
+        MOBILE_PHONE = #{mobilePhone,jdbcType=VARCHAR},
+        STATUS = #{status,jdbcType=DECIMAL},
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+        CREATE_BY = #{createBy,jdbcType=DECIMAL},
+        UPDATED_BY = #{updatedBy,jdbcType=DECIMAL},
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+        FAIL_COUNT = #{failCount,jdbcType=DECIMAL},
+        LAST_LOGIN_TIME = #{lastLoginTime,jdbcType=TIMESTAMP},
+        SECURITY_LEVEL = #{securityLevel,jdbcType=DECIMAL},
+        USER_TYPE = #{userType,jdbcType=DECIMAL},
+        GENDER = #{gender,jdbcType=VARCHAR},
+        EDUCATION = #{education,jdbcType=VARCHAR},
+        BIRTHDAY = #{birthday,jdbcType=TIMESTAMP},
+        ID_NO = #{idNo,jdbcType=VARCHAR},
+        COACH_TYPE = #{coachType,jdbcType=DECIMAL},
+        WORK_YEAR = #{workYear,jdbcType=FLOAT},
+        MAJOR_TYPE = #{majorType,jdbcType=VARCHAR},
+        COMPANY = #{company,jdbcType=VARCHAR},
+        REMARK = #{remark,jdbcType=VARCHAR},
+        DELETED = #{deleted,jdbcType=DECIMAL},
+        ORG_ID = #{orgId,jdbcType=DECIMAL}
+    where USER_ID = #{userId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateUserOrgId">
+    update TBL_USER t1
+    <if test="orgId==null or orgId==''">
+      set  t1.ORG_ID=null
+    </if>
+    <if test="orgId!=null and orgId!=''">
+      set  t1.ORG_ID=#{orgId}
+    </if>
+    where t1.USER_ID=#{userId}
+  </update>
+  <update id="updateSpecificOrgIdToNull">
+    update TBL_USER t1
+    set t1.ORG_ID=null
+    where t1.ORG_ID=#{orgId}
+  </update>
+
+  <select id="getUserByLoginName" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from TBL_USER
+    where LOGIN_NAME = #{loginName,jdbcType=VARCHAR}
+  </select>
+
+  <!-- 以用户名或密码 查询用户 -->
+  <select id="checkUser" resultMap="BaseResultMap" parameterType="com.ybj.cbt.model.User">
+    select
+    <include refid="Base_Column_List" />
+    from TBL_USER where DELETED = 0
+    <if test="userId != null and loginName != ''">
+      AND USER_ID = #{userId,jdbcType=VARCHAR}
+    </if>
+    <if test="password != null and password != ''">
+      AND PASSWORD = #{password,jdbcType=VARCHAR}
+    </if>
+
+  </select>
+  <!-- 查询管理员之外的所有用户 -->
+  <select id="getAll" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    users.USER_ID,
+    users.LOGIN_NAME,
+    users.USER_FULL_NAME,
+    users.PASSWORD,
+    users.EMAIL,
+    users.MOBILE_PHONE,
+    users.GENDER,
+    users.COACH_TYPE,
+    users.MAJOR_TYPE,
+    users.ID_NO,
+    users.REMARK,
+    users.WORK_YEAR,
+    users.USER_TYPE,
+    users.STATUS,
+    decode(users.STATUS,'0','启用','禁用') STATUS_NAME,
+    users.CREATE_TIME,
+    users.CREATE_BY,
+    users.UPDATED_BY,
+    users.EDUCATION,
+    users.BIRTHDAY,
+    users.COMPANY ,
+    users.UPDATE_TIME,
+    users.FAIL_COUNT,
+    users.LAST_LOGIN_TIME,
+    users.SECURITY_LEVEL,
+    decode(users.SECURITY_LEVEL,0,'公开',1,'内部',2,'秘密',3,'机密',4,'绝密') SECURITY_LEVEL_NAME,
+    userRole.ROLE_ID,
+    roles.ROLE_NAME ROLE_NAME
+    from TBL_USER users
+    left join TBL_USER_ROLE userRole
+    on userRole.USER_ID = users.USER_ID
+    left join TBL_ROLE roles
+    on roles.oid = userRole.ROLE_ID
+    where users.DELETED = 0
+    <if test="userType ==1">
+      AND users.USER_TYPE=#{userType}
+    </if>
+    <if test="userType==0">
+      AND users.USER_TYPE in(0,2)
+    </if>
+    order by UPDATE_TIME DESC
+    <!-- <if test="admin != null and admin!=''">
+        and users.LOGIN_NAME <![CDATA[<>]]> #{admin}
+    </if> -->
+
+  </select>
+
+  <!-- 查询状态为启用且排除登录用户的所有用户 -->
+  <select id="getUserExcludeById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select users.LOGIN_NAME,
+    users.USER_FULL_NAME,
+    users.USER_ID,
+    users.EMAIL,
+    users.MOBILE_PHONE,
+    users.STATUS,
+    users.CREATE_TIME, users.CREATE_BY,
+    users.UPDATE_TIME, users.UPDATED_BY,
+    users.FAIL_COUNT,users.LAST_LOGIN_TIME
+    from TBL_USER users
+    where users.STATUS = 0 and users.DELETED = 0
+    <if test="userId != null">
+      AND users.USER_ID <![CDATA[<>]]> #{userId}
+    </if>
+  </select>
+
+  <!-- 查询拥有指定权限的所有用户 -->
+  <select id="searchAuditor" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    users.USER_ID,
+    users.LOGIN_NAME,
+    users.USER_FULL_NAME,
+    users.STATUS,
+    decode(users.STATUS,'0','启用','禁用') STATUS_NAME,
+    users.SECURITY_LEVEL,
+    decode(users.SECURITY_LEVEL,0,'公开',1,'内部',2,'秘密',3,'机密',4,'绝密') SECURITY_LEVEL_NAME,
+    userRole.ROLE_ID,
+    roles.ROLE_NAME ROLE_NAME,
+    permission.permission_name
+    from TBL_USER users
+    inner join TBL_USER_ROLE userRole
+    on
+    <if test="admin != null and admin!=''">
+      users.LOGIN_NAME <![CDATA[<>]]> #{admin} AND
+    </if>
+    users.DELETED = 0 and
+    userRole.USER_ID = users.USER_ID
+    inner join TBL_ROLE roles
+    on roles.oid = userRole.ROLE_ID
+    inner join TBL_ROLE_PERMISSION rolePermission
+    on  rolePermission.role_Id = roles.oid
+    inner join TBL_PERMISSION permission
+    on permission.oid = rolePermission.permission_id
+    and permission.permission_code =  #{type}
+  </select>
+
+  <select id="searchUser" resultMap="BaseResultMap">
+    select
+    users.USER_ID,
+    users.LOGIN_NAME,
+    users.USER_FULL_NAME,
+    users.STATUS,
+    decode(users.STATUS,'0','启用','禁用') STATUS_NAME,
+    users.SECURITY_LEVEL,
+    decode(users.SECURITY_LEVEL,0,'公开',1,'内部',2,'秘密',3,'机密',4,'绝密') SECURITY_LEVEL_NAME,
+    userRole.ROLE_ID,
+    roles.ROLE_NAME ROLE_NAME,
+    permission.permission_name
+    from TBL_USER users
+    inner join TBL_USER_ROLE userRole
+    on
+    <if test="admin != null and admin!=''">
+      users.LOGIN_NAME <![CDATA[<>]]> #{admin} AND
+    </if>
+    users.DELETED = 0 and
+    userRole.USER_ID = users.USER_ID
+    inner join TBL_ROLE roles
+    on roles.oid = userRole.ROLE_ID
+    inner join TBL_ROLE_PERMISSION rolePermission
+    on  rolePermission.role_Id = roles.oid
+    inner join TBL_PERMISSION permission
+    on permission.oid = rolePermission.permission_id
+  </select>
+
+  <select id="hasPermission" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+    select *
+    from TBL_USER users
+           inner join TBL_USER_ROLE userRole
+                      on userRole.USER_ID = users.USER_ID
+           inner join TBL_ROLE roles
+                      on roles.oid = userRole.ROLE_ID
+           inner join TBL_ROLE_PERMISSION rolePermission
+                      on  rolePermission.role_Id = roles.oid
+           inner join TBL_PERMISSION permission
+                      on permission.oid = rolePermission.permission_id and permission.PERMISSION_CODE = #{permissionName}
+    where users.USER_ID = #{userId}
+  </select>
+
+
+
+
+    <select id="selectAll" resultMap="BaseResultMap">
+      select * from tbl_user
+    </select>
+
+</mapper>

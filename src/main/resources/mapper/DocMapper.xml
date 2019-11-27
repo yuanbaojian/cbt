@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ybj.cbt.mapper.DocMapper">
+  <resultMap id="BaseResultMap" type="com.ybj.cbt.model.Doc">
+    <id column="DOC_ID" jdbcType="DECIMAL" property="docId" />
+    <result column="DOC_NO" jdbcType="VARCHAR" property="docNo" />
+    <result column="DOC_NAME" jdbcType="VARCHAR" property="docName" />
+    <result column="DOC_TYPE" jdbcType="DECIMAL" property="docType" />
+    <result column="FILE_NAME" jdbcType="VARCHAR" property="fileName" />
+    <result column="FILE_TYPE" jdbcType="VARCHAR" property="fileType" />
+    <result column="FILE_SIZE" jdbcType="DECIMAL" property="fileSize" />
+    <result column="FILE_SIZE_LENGTH" jdbcType="VARCHAR" property="fileSizeLength" />
+    <result column="FILE_PATH" jdbcType="VARCHAR" property="filePath" />
+    <result column="CREATED_BY" jdbcType="DECIMAL" property="createdBy" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATED_BY" jdbcType="DECIMAL" property="updatedBy" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <cache></cache>
+  <sql id="Base_Column_List">
+    DOC_ID, DOC_NO, DOC_NAME, DOC_TYPE, FILE_NAME, FILE_TYPE, FILE_SIZE, FILE_SIZE_LENGTH, 
+    FILE_PATH, CREATED_BY, CREATE_TIME, UPDATED_BY, UPDATE_TIME, REMARK
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TBL_DOC
+    where DOC_ID = #{docId,jdbcType=DECIMAL}
+  </select>
+
+  <select id="selectDocumentListByCondition" resultMap="BaseResultMap">
+    select
+    t1.DOC_ID
+    ,t1.DOC_NAME
+    ,t1.FILE_TYPE
+    ,t1.FILE_SIZE_LENGTH
+    ,t1.UPDATED_BY
+    ,t1.UPDATE_TIME
+    ,t1.REMARK
+    ,t2.USER_FULL_NAME as updateByString
+    from TBL_DOC t1
+    left join TBL_USER t2
+    on t2.USER_ID=t1.UPDATED_BY
+    where t1.DOC_TYPE=#{docType}
+    <trim>
+      <if test="docName!='' " >
+        and t1.DOC_NAME like '%' || #{docName} || '%'
+      </if>
+      <if test="startDate !=null ">
+        AND  t1.UPDATE_TIME  <![CDATA[ >= ]]>    #{startDate}
+      </if>
+      <if test="endDate !=null ">
+        AND t1.UPDATE_TIME  <![CDATA[ <= ]]>  #{endDate}
+      </if>
+    </trim>
+    ORDER BY t1.UPDATE_TIME desc
+  </select>
+
+    <select id="selectFilePathByDocId" resultType="java.lang.String">
+        select  t1.FILE_PATH
+        from TBL_DOC t1
+        where  t1.DOC_ID=#{docId}
+    </select>
+
+  <select id="selectCountByIDAndName" resultType="java.lang.Integer">
+    select count(*)
+    from TBL_DOC t1
+where t1.DOC_NAME=#{docName} and t1.DOC_ID != #{docId} and t1.DOC_TYPE=#{docType}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from TBL_DOC
+    where DOC_ID = #{docId,jdbcType=DECIMAL}
+  </delete>
+
+    <delete id="deleteAuditByDocId">
+        delete
+        from TBL_DOC t1
+        WHERE t1.DOC_ID=#{docId}
+    </delete>
+
+    <insert id="insert" parameterType="com.ybj.cbt.model.Doc">
+    insert into TBL_DOC (DOC_ID, DOC_NO, DOC_NAME, 
+      DOC_TYPE, FILE_NAME, FILE_TYPE, 
+      FILE_SIZE, FILE_SIZE_LENGTH, FILE_PATH, 
+      CREATED_BY, CREATE_TIME, UPDATED_BY, 
+      UPDATE_TIME, REMARK)
+    values (#{docId,jdbcType=DECIMAL}, #{docNo,jdbcType=VARCHAR}, #{docName,jdbcType=VARCHAR}, 
+      #{docType,jdbcType=DECIMAL}, #{fileName,jdbcType=VARCHAR}, #{fileType,jdbcType=VARCHAR}, 
+      #{fileSize,jdbcType=DECIMAL}, #{fileSizeLength,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, 
+      #{createdBy,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=DECIMAL}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ybj.cbt.model.Doc">
+  	<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="docId">
+			SELECT TBL_DOCUMENT_SEQ.nextval AS DOC_ID FROM DUAL
+	</selectKey>
+    insert into TBL_DOC
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="docId != null">
+        DOC_ID,
+      </if>
+      <if test="docNo != null">
+        DOC_NO,
+      </if>
+      <if test="docName != null">
+        DOC_NAME,
+      </if>
+      <if test="docType != null">
+        DOC_TYPE,
+      </if>
+      <if test="fileName != null">
+        FILE_NAME,
+      </if>
+      <if test="fileType != null">
+        FILE_TYPE,
+      </if>
+      <if test="fileSize != null">
+        FILE_SIZE,
+      </if>
+      <if test="fileSizeLength != null">
+        FILE_SIZE_LENGTH,
+      </if>
+      <if test="filePath != null">
+        FILE_PATH,
+      </if>
+      <if test="createdBy != null">
+        CREATED_BY,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updatedBy != null">
+        UPDATED_BY,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="docId != null">
+        #{docId,jdbcType=DECIMAL},
+      </if>
+      <if test="docNo != null">
+        #{docNo,jdbcType=VARCHAR},
+      </if>
+      <if test="docName != null">
+        #{docName,jdbcType=VARCHAR},
+      </if>
+      <if test="docType != null">
+        #{docType,jdbcType=DECIMAL},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null">
+        #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        #{fileSize,jdbcType=DECIMAL},
+      </if>
+      <if test="fileSizeLength != null">
+        #{fileSizeLength,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null">
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null">
+        #{updatedBy,jdbcType=DECIMAL},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ybj.cbt.model.Doc">
+    update TBL_DOC
+    <set>
+      <if test="docNo != null">
+        DOC_NO = #{docNo,jdbcType=VARCHAR},
+      </if>
+      <if test="docName != null">
+        DOC_NAME = #{docName,jdbcType=VARCHAR},
+      </if>
+      <if test="docType != null">
+        DOC_TYPE = #{docType,jdbcType=DECIMAL},
+      </if>
+      <if test="fileName != null">
+        FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null">
+        FILE_TYPE = #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        FILE_SIZE = #{fileSize,jdbcType=DECIMAL},
+      </if>
+      <if test="fileSizeLength != null">
+        FILE_SIZE_LENGTH = #{fileSizeLength,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null">
+        FILE_PATH = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null">
+        CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null">
+        UPDATED_BY = #{updatedBy,jdbcType=DECIMAL},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DOC_ID = #{docId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ybj.cbt.model.Doc">
+    update TBL_DOC
+    set DOC_NO = #{docNo,jdbcType=VARCHAR},
+      DOC_NAME = #{docName,jdbcType=VARCHAR},
+      DOC_TYPE = #{docType,jdbcType=DECIMAL},
+      FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      FILE_TYPE = #{fileType,jdbcType=VARCHAR},
+      FILE_SIZE = #{fileSize,jdbcType=DECIMAL},
+      FILE_SIZE_LENGTH = #{fileSizeLength,jdbcType=VARCHAR},
+      FILE_PATH = #{filePath,jdbcType=VARCHAR},
+      CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATED_BY = #{updatedBy,jdbcType=DECIMAL},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where DOC_ID = #{docId,jdbcType=DECIMAL}
+  </update>
+
+  <update id="updateFilePathByDocId">
+    update TBL_DOC t1
+    set  t1.FILE_PATH= #{fullPath}
+    where t1.DOC_ID=#{docId}
+  </update>
+
+</mapper>

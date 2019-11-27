@@ -1,0 +1,33 @@
+server:
+  port: 8082
+spring:
+  resources:
+    static-locations: classpath:/static
+  http:
+
+
+  thymeleaf:
+    suffix: .html
+    prefix: classpath:/templates/
+    cache: false
+
+  datasource:
+    name: news_websitePOIUtil.java
+    url: jdbc:mysql://yuanbaojian.xyz:3306/cbt?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone = GMT%2B8
+    username: cbt
+    password: 312ybj
+    type: com.alibaba.druid.pool.DruidDataSource
+  servlet:
+    multipart:
+      max-file-size:100mb
+  mail:
+    host : smtp.qq.com
+    port : 587
+    username : 1793870688@qq.com
+    password : xgnwkzstqovkeceb
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.ybj.cbt.model
+

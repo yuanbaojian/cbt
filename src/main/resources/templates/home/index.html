@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<!--[if IE 8]>
+<html lang="en" class="ie8"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8"/>
+    <link rel="shortcut icon" type="image/ico" href="assets/img/system-icon/systemIcon.jpg"/> <!-- 添加 favicon icon -->
+    <title>CBT培训系统</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <meta content="" name="description"/>
+    <meta content="" name="author"/>
+
+    <!-- ================== BEGIN BASE CSS STYLE ================== -->
+    <link href="assets/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet"/>
+    <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="assets/plugins/font-awesome/css/all.min.css" rel="stylesheet"/>
+    <link href="assets/plugins/animate/animate.min.css" rel="stylesheet"/>
+    <link href="assets/css/default/style.min.css" rel="stylesheet"/>
+    <link href="assets/css/default/style-responsive.min.css" rel="stylesheet"/>
+    <link href="assets/css/default/theme/default.css" rel="stylesheet" id="theme"/>
+    <link href="assets/plugins/jqueryLoadingModal/jquery.loadingModal.min.css" rel="stylesheet"/>
+
+    <!-- ================== END BASE CSS STYLE ================== -->
+
+    <!-- ================== BEGIN BASE JS ================== -->
+    <script src="assets/plugins/pace/pace.min.js"></script>
+    <!-- ================== END BASE JS ================== -->
+    <style>
+        /*自定义复选框的样式  */
+        .self-checkbox {
+            display: none;
+        }
+
+        .self-checkbox + label {
+            content: '';
+            text-align: center;
+            position: relative;
+            left: 0;
+            top: 10px;
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            background: #dee2e6;
+        }
+
+        .self-checkbox:checked + label {
+
+            background: #348fe2;
+            border-color: #348fe2;
+
+        }
+
+        .self-checkbox:checked + label:after {
+            content: '';
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 50% 50%;
+            position: absolute;
+            top: 0px;
+            left: 0;
+            color: #fff;
+            height: 16px;
+            width: 16px;
+            text-align: center;
+        }
+
+        /*自定义单选框的样式  */
+        .self-radio {
+            display: none;
+        }
+
+        .self-radio + label {
+            content: '';
+            position: relative;
+            left: 0;
+            top: 10px;
+            width: 16px;
+            height: 16px;
+            text-align: center;
+            border-radius: 16px;
+            background: #dee2e6;
+        }
+
+        .self-radio:checked + label {
+            background: #348fe2;
+            border-color: #348fe2;
+        }
+
+        .self-radio:checked + label:after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: 6px;
+            height: 6px;
+            border-radius: 6px;
+            background: #fff;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<!-- begin #page-loader -->
+<div id="page-loader" class="fade show">
+    <span class="spinner"></span>
+</div>
+<!-- end #page-loader -->
+
+<!-- begin #page-container -->
+<div id="page-container"
+     class="page-container fade page-sidebar-fixed page-header-fixed">
+    <!-- begin #header -->
+    <div id="header" class="header navbar-default">
+        <!-- begin navbar-header -->
+        <div class="navbar-header">
+            <a href="" class="navbar-brand">
+                <img alt="图片加载失败" width="30" height="50" src="assets/img/system-icon/pig.png">
+                <b>CBT</b> 培训系统</a>
+            <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
+                <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+            </button>
+        </div>
+        <!-- end navbar-header -->
+
+        <!-- begin header-nav -->
+        <ul class="navbar-nav navbar-right">
+            <li>
+                <form class="navbar-form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Enter keyword"/>
+                        <button type="submit" class="btn btn-search">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </li>
+            <li class="dropdown">
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle f-s-14"> <i class="fa fa-bell"></i>
+                    <span name="count1"></span>
+                </a>
+                <ul class="dropdown-menu media-list pull-right animated fadeInDown" id="contents">
+                    <li class="dropdown-header" id="news"></li>
+                </ul>
+            </li>
+            <li class="dropdown navbar-user"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <img src="assets/img/user/user-13.jpg" alt=""/>
+                <span class="d-none d-md-inline">
+             <shiro:principal property="loginName"></shiro:principal>
+             <small><shiro:principal property="userFullName"></shiro:principal>
+             	</small>
+				</span> <b class="caret"></b>
+            </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="JavaScript:navigateModule('user/userlist')" class="dropdown-item">用户管理</a>
+                    <a href="JavaScript:navigateModule('role/list')" class="dropdown-item">角色管理</a>
+                    <a href="JavaScript:navigateModule('organization/index')" class="dropdown-item">组织结构管理</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="logout" class="dropdown-item">注销</a>
+                </div>
+            </li>
+
+        </ul>
+        <!-- end header navigation right -->
+    </div>
+    <!-- end #header -->
+
+    <!-- begin #sidebar -->
+    <div id="sidebar" class="sidebar">
+        <!-- begin sidebar scrollbar -->
+        <div data-scrollbar="true" data-height="100%">
+            <!-- begin sidebar user -->
+            <ul class="nav">
+                <li class="nav-profile"><a href="javascript:" data-toggle="nav-profile">
+                    <div class="cover with-shadow"></div>
+                    <div class="image">
+                        <img src="assets/img/user/user-13.jpg" alt=""/>
+                    </div>
+                    <div class="info">
+                        <b class="caret pull-right"></b>
+                        <shiro:principal property="loginName"></shiro:principal>
+                        <small>
+                            <shiro:principal property="userFullName"></shiro:principal>
+                        </small>
+                    </div>
+                </a></li>
+                <li>
+                    <ul class="nav nav-profile">
+                        <li><a href="javascript:"><i class="fa fa-cog"></i>
+                            Settings</a></li>
+                        <li><a href="javascript:"><i class="fa fa-pencil-alt"></i>
+                            Send Feedback</a></li>
+                        <li><a href="javascript:"><i class="fa fa-question-circle"></i> Helps</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- end sidebar user -->
+            <!-- begin sidebar nav -->
+            <ul class="nav">
+                <li class="has-sub"><a href="javascript:"> <span name="count2"></span> <i class="fa fa-cogs"></i> <span>文件系统</span></a>
+                    <ul class="sub-menu">
+                        <li><a href="JavaScript:navigateModule('auditFile/index')" data-toggle="ajax"></span>二类文件管理</a></li>
+                    </ul>
+                </li>
+                <li class="has-sub">
+				<li class="has-sub"><a href="javascript:"> <b class="caret"></b> <i class="fa fa-cogs"></i> <span>系统管理</span></a>
+					<ul class="sub-menu">
+						<li><a href="javascript:navigateModule('user/list')" >用户管理</a></li>
+					</ul>
+				</li>
+                <li><a href="javascript:" class="sidebar-minify-btn"
+                       data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="sidebar-bg"></div>
+    <!-- end #sidebar -->
+
+    <!-- begin #content -->
+    <div id="ajax-content" class="content"></div>
+    <!-- end #content -->
+
+    <!-- begin theme-panel -->
+    <div class="theme-panel theme-panel-lg">
+        <a href="javascript:" data-click="theme-panel-expand"
+           class="theme-collapse-btn"><i class="fa fa-cog"></i></a>
+        <div class="theme-panel-content">
+            <h5 class="m-t-0">Color Theme</h5>
+            <ul class="theme-list clearfix">
+                <li><a href="javascript:" class="bg-red" data-theme="red"
+                       data-theme-file="assets/css/default/theme/red.css"
+                       data-click="theme-selector" data-toggle="tooltip"
+                       data-trigger="hover" data-container="body" data-title="Red">&nbsp;</a></li>
+                <li><a href="javascript:" class="bg-pink" data-theme="pink"
+                       data-theme-file="assets/css/default/theme/pink.css"
+                       data-click="theme-selector" data-toggle="tooltip"
+                       data-trigger="hover" data-container="body" data-title="Pink">&nbsp;</a></li>
+                <li><a href="javascript:" class="bg-orange"
+                       data-theme="orange"
+                       data-theme-file="assets/css/default/theme/orange.css"
+                       data-click="theme-selector" data-toggle="tooltip"
+                       data-trigger="hover" data-container="body" data-title="Orange">&nbsp;</a></li>
+                <li><a href="javascript:" class="bg-yellow"
+                       data-theme="yellow"
+                       data-theme-file="assets/css/default/theme/yellow.css"
+                       data-click="theme-selector" data-toggle="tooltip"
+                       data-trigger="hover" data-container="body" data-title="Yellow">&nbsp;</a></li>
+                <li><a href="javascript:" class="bg-lime" data-theme="lime"
+                       data-theme-file="assets/css/default/theme/lime.css"
+                       data-click="theme-selector" data-toggle="tooltip"
+                       data-trigger="hover" data-container="body" data-title="Lime">&nbsp;</a></li>
+                <li><a href="javascript:" class="bg-green" data-theme="green"
+                       data-theme-file="assets/css/default/theme/green.css"
+                       data-click="theme-selector" data-toggle="tooltip"
+                       data-trigger="hover" data-container="body" data-title="Green">&nbsp;</a></li>
+                <li><a href="javascript:" class="bg-teal"
+                       data-theme="default"
+                       data-theme-file="assets/css/default/theme/default.css"
+                       data-click="theme-selector" data-toggle="tooltip"
+                       data-trigger="hover" data-container="body" data-title="Default">&nbsp;</a></li>
+                <li><a href="javascript:" class="bg-aqua" data-theme="aqua"
+                       data-theme-file="assets/css/default/theme/aqua.css"
+                       data-click="theme-selector" data-toggle="tooltip"
+                       data-trigger="hover" data-container="body" data-title="Aqua">&nbsp;</a></li>
+                <li><a href="javascript:" class="bg-blue" data-theme="blue"
+                       data-theme-file="assets/css/default/theme/blue.css"
+                       data-click="theme-selector" data-toggle="tooltip"
+                       data-trigger="hover" data-container="body" data-title="Blue">&nbsp;</a></li>
+                <li><a href="javascript:" class="bg-purple"
+                       data-theme="purple"
+                       data-theme-file="assets/css/default/theme/purple.css"
+                       data-click="theme-selector" data-toggle="tooltip"
+                       data-trigger="hover" data-container="body" data-title="Purple">&nbsp;</a></li>
+                <li><a href="javascript:" class="bg-indigo"
+                       data-theme="indigo"
+                       data-theme-file="assets/css/default/theme/indigo.css"
+                       data-click="theme-selector" data-toggle="tooltip"
+                       data-trigger="hover" data-container="body" data-title="Indigo">&nbsp;</a></li>
+                <li><a href="javascript:" class="bg-black" data-theme="black"
+                       data-theme-file="assets/css/default/theme/black.css"
+                       data-click="theme-selector" data-toggle="tooltip"
+                       data-trigger="hover" data-container="body" data-title="Black">&nbsp;</a></li>
+            </ul>
+            <div class="divider"></div>
+            <div class="row m-t-10">
+                <div class="col-md-6 control-label text-inverse f-w-600">Header
+                    Styling
+                </div>
+                <div class="col-md-6">
+                    <select name="header-styling" class="form-control form-control-sm">
+                        <option value="1">default</option>
+                        <option value="2">inverse</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row m-t-10">
+                <div class="col-md-6 control-label text-inverse f-w-600">Header</div>
+                <div class="col-md-6">
+                    <select name="header-fixed" class="form-control form-control-sm">
+                        <option value="1">fixed</option>
+                        <option value="2">default</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row m-t-10">
+                <div class="col-md-6 control-label text-inverse f-w-600">Sidebar
+                    Styling
+                </div>
+                <div class="col-md-6">
+                    <select name="sidebar-styling"
+                            class="form-control form-control-sm">
+                        <option value="1">default</option>
+                        <option value="2">grid</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row m-t-10">
+                <div class="col-md-6 control-label text-inverse f-w-600">Sidebar</div>
+                <div class="col-md-6">
+                    <select name="sidebar-fixed" class="form-control form-control-sm">
+                        <option value="1">fixed</option>
+                        <option value="2">default</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row m-t-10">
+                <div class="col-md-6 control-label text-inverse f-w-600">Sidebar
+                    Gradient
+                </div>
+                <div class="col-md-6">
+                    <select name="content-gradient"
+                            class="form-control form-control-sm">
+                        <option value="1">disabled</option>
+                        <option value="2">enabled</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row m-t-10">
+                <div class="col-md-6 control-label text-inverse f-w-600">Content
+                    Styling
+                </div>
+                <div class="col-md-6">
+                    <select name="content-styling"
+                            class="form-control form-control-sm">
+                        <option value="1">default</option>
+                        <option value="2">black</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row m-t-10">
+                <div class="col-md-6 control-label text-inverse f-w-600">Direction</div>
+                <div class="col-md-6">
+                    <select name="direction" class="form-control form-control-sm">
+                        <option value="1">LTR</option>
+                        <option value="2">RTL</option>
+                    </select>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div class="row m-t-10">
+                <div class="col-md-12">
+                    <a href="javascript:"
+                       class="btn btn-inverse btn-block btn-rounded"
+                       data-click="reset-local-storage"><b>Reset Local Storage</b></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end theme-panel -->
+    <!-- begin scroll to top btn -->
+    <a href="javascript:" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i
+            class="fa fa-angle-up"></i></a>
+    <!-- end scroll to top btn -->
+</div>
+<!-- end page container -->
+
+<!-- ================== BEGIN BASE JS ================== -->
+<script src="assets/plugins/jquery/jquery-3.3.1.min.js"></script>
+<script src="assets/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
+<script src="assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/plugins/bootbox/bootbox.min.js"></script>
+<!--[if lt IE 9]>
+<script src="assets/crossbrowserjs/html5shiv.js"></script>
+<script src="assets/crossbrowserjs/respond.min.js"></script>
+<script src="assets/crossbrowserjs/excanvas.min.js"></script>
+<![endif]-->
+<script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="assets/plugins/js-cookie/js.cookie.js"></script>
+<script src="assets/js/theme/default.min.js"></script>
+<script src="assets/js/apps.min.js"></script>
+<script src="assets/plugins/jqueryLoadingModal/jquery.loadingModal.min.js"></script>
+<!-- ================== END BASE JS ================== -->
+
+
+<script>
+    $(document).ready(function () {
+        var loginName_user = $("#loginName_user").val();
+        if (loginName_user == "admin") {
+            $(".adminUser").show();
+        } else {
+            $(".adminUser").hide();
+        }
+        $.ajaxSetup({
+            contentType: "application/x-www-form-urlencoded;charset=utf-8",
+            complete: function (XMLHttpRequest, textStatus) {
+                //通过XMLHttpRequest取得响应头，sessionstatus
+                var sessionStatus = XMLHttpRequest.getResponseHeader("sessionStatus");
+                if (sessionStatus == "timeout") {
+                    //这里怎么处理在你，这里跳转的登录页面
+                    window.location.href = "${BASEPATH}home";
+                }
+            }
+        });
+        App.init();
+        indexInit();
+    });
+
+    function indexInit() {
+        //模块点击
+        $('.sidebar .nav .has-sub > a').click(function () {
+            var module = $(this).parent();
+            module.siblings("li.active").removeClass("active");
+            module.addClass("active");
+        });
+        //模块页面点击
+        $('.sidebar .nav > .has-sub .sub-menu li').click(
+            function () {
+                $('.sidebar .nav > .has-sub .sub-menu li.active')
+                    .removeClass("active");
+                $(this).addClass("active");
+            });
+
+        //初始化页面的展示页面
+        var module = $("#sidebar ul.nav li.has-sub:first ul.sub-menu");
+        $("#sidebar ul.nav li.has-sub:first a:first").click();
+        var clickEle;
+        if (module == null || module == ''
+            || typeof (module) == 'undefined' || module.length == 0) {
+            clickEle = $("#sidebar ul.nav li.has-sub:first a:first");
+        } else {
+            //触发第一个模块的第一个页面
+            clickEle = $("#sidebar ul.nav li.has-sub:first ul.sub-menu li:first a:first");
+        }
+        clickEle.click();
+        var hrefUrl = clickEle.attr("href");
+        var firstIndex = hrefUrl.indexOf("('");
+        var lastIndex = hrefUrl.indexOf("')");
+        var openUrl = hrefUrl.substring(firstIndex + 2, lastIndex);
+        navigateModule(openUrl);
+    }
+
+    function navigateModule(openUrl) {
+        $.ajax({
+            type: 'POST',
+            url: openUrl, //with the page number as a parameter
+            dataType: 'html', //expect html to be returned
+            success: function (data) {
+                $('#ajax-content').html(data);
+                $('html, body').animate({
+                    scrollTop: $("body").offset().top
+                }, 250);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("载入失败");
+                $('#ajax-content').html(default_content);
+            }
+        });
+    }
+</script>
+</body>
+</html>
+

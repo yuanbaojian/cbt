@@ -1,0 +1,67 @@
+<div class="modal fade" id="auditFile-add-edit-modal" tabindex="-1" role="basic" aria-hidden="true"   data-backdrop="static" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"></h4>
+        <!--<h4 class="modal-title"><i class="fa fa-pencil-square-o"></i></h4>-->
+        <!--  <button type="button" class="modal-title btn fa fa-pencil-square-o btn-primary"></button>-->
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      </div>
+      <div class="modal-body">
+        <form id="auditFile-add-edit-form" action="#" class="form-horizontal single-line-form"enctype="multipart/form-data" method="post">
+          <input id="docId" name="docId"   type="hidden"/>
+          <!-- begin panel -->
+          <div class="panel panel-inverse">
+            <!-- begin panel-body -->
+            <div class="panel-body">
+              <div class="form-group row  m-b-13">
+                <label class="col-md-2 col-form-label-form" ><span class="required" style="color:red">*</span>名&nbsp;&nbsp;&nbsp;称:</label>
+                <div class="col-md-9 margin-bottom-10">
+                  <input id="docName" name="docName" type="text" class="form-control maxlength-handler  input-icon" maxlength="20" value="">
+                </div>
+              </div>
+
+
+              <div class="form-group row m-b-15">
+                <label class="col-md-2 col-form-label-form"><span  style="color: red"> </span>文&nbsp;&nbsp;&nbsp;件:</label>
+                <div id="aduitFileNameDiv" class=" col-md-9 fileinput fileinput-new"  style="padding-left:10px" data-provides="fileinput">
+                  <div class="input-group">
+                    <div class="form-control uneditable-input col-md-9">
+                      <span class="fa fa-file fileinput-exists fileinput-filename" title=""  id="auditFileName"></span>
+                    </div>
+                    <span class="input-group-addon btn default btn-file">
+									    <a href="javascript:" class="fileinput-new" style="cursor: pointer">选择</a>
+									    <a href="javascript:" class="fileinput-exists" style="cursor: pointer">重选</a>
+									    <input type="file" id="auditFile" name="auditFile"  aria-invalid="false" class="valid" >
+								    </span>
+                    <a href="javascript:" class="input-group-addon btn red fileinput-exists" style="cursor: pointer" data-dismiss="fileinput">清除</a>
+                  </div>
+                  <p class="help-block">请上传文件</p>
+                </div>
+              </div>
+
+              <div class="form-group row m-b-15">
+                <label class="col-md-2 col-form-label-form">备&nbsp;&nbsp;&nbsp;&nbsp;注:</label>
+                <div class="col-md-9 margin-bottom-10">
+                  <textarea class="input-icon form-control maxlength-handler" rows="4" id="remark" name="remark" ></textarea>
+                  <span  style="margin-top: 5px; margin-bottom: 10px; display: block">最多255个字符 </span>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+          <input type="reset" id="doc-reset" hidden="true"/>
+        </form>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-md-8 offset-md-8">
+          <button type="button" onclick="auduitFileIndex.saveAuditFile()" class="btn btn-sm btn-primary m-r-5"><i class="fa fa-check"></i>确定</button>
+          <button type="button" data-dismiss="modal" class="btn btn-sm btn-default"><i class="fa fa-times"></i>取消</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
