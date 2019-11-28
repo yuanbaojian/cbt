@@ -1,11 +1,15 @@
 package com.ybj.cbt.Learn.ThinkingInJava.Ch18.FIleDownload;
 
+import org.apache.commons.io.IOUtils;
+import org.junit.Test;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -26,29 +30,27 @@ public class getJson {
         System.out.println("亲，759还有"+ Long.valueOf(busInfo.getTime()) /60+"分钟到达顾戴路秀波路 "  );
     }
 
+    @Test
+    public void testIOUtils() throws IOException {
+        String path="https://www.pexels.com/";
+        URL url=new URL(path);
+        HttpURLConnection conn=(HttpURLConnection) url.openConnection();
+        conn.setRequestProperty("user-agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36");
+        conn.setRequestMethod("POST");
+        conn.setConnectTimeout(5000);
+        String context = IOUtils.toString(conn.getInputStream(), "utf-8");
+        System.out.println("context = " + context);
+    }
+
 
     public static BusInfo HttpURLConnection_GET(String path)throws Exception{
-//        String path="http://222.22.254.223:8080/web/BusInfoJson";
-        //参数直接加载url后面
         BusInfo busInfo=new BusInfo();
-//        path+="?username="+ URLEncoder.encode("我是大帅哥HttpClientGET","utf-8");
         URL url=new URL(path);
         HttpURLConnection conn=(HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
         conn.setConnectTimeout(5000);
         if(conn.getResponseCode()==200){				//200表示请求成功
-            InputStream is=conn.getInputStream();		//以输入流的形式返回
-            //将输入流转换成字符串
-            ByteArrayOutputStream baos=new ByteArrayOutputStream();
-            byte [] buffer=new byte[1024];
-            int len=0;
-            while((len=is.read(buffer))!=-1){
-                baos.write(buffer, 0, len);
-            }
-            String jsonString=baos.toString();
-            baos.close();
-            is.close();
-            //转换成json数据处理
+            String jsonString = IOUtils.toString(conn.getInputStream(), "utf-8");
             JSONArray jsonArray=new JSONArray(jsonString);
             for(int i=0;i<jsonArray.length();i++){		//一个循环代表一个BusInfo对象
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
