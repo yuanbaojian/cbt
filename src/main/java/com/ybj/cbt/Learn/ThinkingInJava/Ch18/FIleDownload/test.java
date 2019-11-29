@@ -13,7 +13,7 @@ public class test
 {
     @Test
     public void testDownload() throws IOException {
-        String url="http://91porn.com/video.php?category=rf&page=2";
+        String url = "https://www.baidu.com";
         String urlsource = getURLSource(url);
         System.out.println(urlsource);
     }
