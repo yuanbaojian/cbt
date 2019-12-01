@@ -1,6 +1,7 @@
 package com.ybj.cbt.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,6 +36,7 @@ public class JacksonUtilsTest {
 
     /**
      *  jsonString 数组  转   object数组
+     *  只要传递一个 数组类型的class类
      */
     @Test
     public void StringArrayToObjectArray() throws JsonProcessingException {
@@ -46,13 +48,15 @@ public class JacksonUtilsTest {
         }
     }
 
-//    @Test
-//    public void StringToJsonObject(){
-//        String jsonString = "{'name':'张三' , 'age':26}";
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        JSONObject jsonObject=objectMapper.
-//    }
 
+    @Test
+    public void stringToJsonNode() {
+        String jsonString = "[{'name':'张三' , 'age':26},{'name':'李四' , 'age':29}]";
+        JsonNode jsonNode=JacksonUtils.stringToJsonNode(jsonString);
+        for (JsonNode node : jsonNode) {
+          System.out.println("node.get(\"name\") = " + node.get("name"));
+        }
+    }
 }
 
 
