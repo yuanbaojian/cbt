@@ -1,54 +1,55 @@
 
+<%-- begin plugin css--%>
+<link href="assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css" rel="stylesheet"/>
+<link href="assets/plugins/DataTables/extensions/Select/css/select.bootstrap.min.css" rel="stylesheet"/>
+<link href="assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css" rel="stylesheet"/>
+<link href="assets/plugins/DataTables/extensions/Scroller/css/scroller.bootstrap.min.css" rel="stylesheet"/>
+<link href="<%=request.getContextPath()%>/assets/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet"/>
+<link href="<%=request.getContextPath()%>/assets/plugins/DataTables/extensions/Scroller/css/scroller.bootstrap.min.css" rel="stylesheet"/>
+<%-- end plugin css--%>
 
 
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
-<link href="assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css" rel="stylesheet" />
-<link href="assets/plugins/DataTables/extensions/Select/css/select.bootstrap.min.css" rel="stylesheet" />
-<link href="assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css" rel="stylesheet" />
-<link href="assets/plugins/DataTables/extensions/Scroller/css/scroller.bootstrap.min.css" rel="stylesheet" />
-<link href="assets/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet"/>
-<link href="assets/plugins/DataTables/extensions/Scroller/css/scroller.bootstrap.min.css" rel="stylesheet" />
-
-
-
-<!-- ================== for  datePicker  BEGIN PAGE LEVEL CSS STYLE ================== -->
-<link href="assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
-<link href="assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css" rel="stylesheet" />
-<link href="assets/plugins/bootstrap-eonasdan-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
-<link href="assets/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" />
-<!-- ================== for  timePicker  BEGIN PAGE LEVEL CSS STYLE ================== -->
-
+<!-- ================== for datePicker BEGIN PAGE LEVEL CSS STYLE ================== -->
+<link href="<%=request.getContextPath()%>/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet"/>
+<link href="<%=request.getContextPath()%>/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css" rel="stylesheet"/>
+<link href="<%=request.getContextPath()%>/assets/plugins/bootstrap-eonasdan-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
+<link href="<%=request.getContextPath()%>/assets/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet"/>
+<!-- ================== for timePicker BEGIN PAGE LEVEL CSS STYLE ================== -->
 
 
 <style type="text/css">
-  .table>tbody>tr>td,.table>thead>tr>th{
-    padding-left:5px;
-    padding-right:5px;
+  .table > tbody > tr > td, .table > thead > tr > th {
+    padding-left: 5px;
+    padding-right: 5px;
     overflow: hidden;
   }
-  p{
-    margin:0px;
+
+  p {
+    margin: 0px;
     cursor: pointer;
   }
+
   .red.btn {
     background-color: #cb5a5e;
     color: #ffffff;
   }
+
   .col-form-label-form {
     padding-top: 7px;
     margin-bottom: 0;
     text-align: right;
   }
+
   .error {
     color: red;
   }
+
   .link-top {
     width: 50%;
     height: 1px;
     border-top: solid #ACC0D8 1px;
   }
 </style>
-
 
 
 <div id="auditFileContent">
@@ -72,13 +73,11 @@
       <ul id="tableUl" class="nav nav-tabs">
         <li class="nav-items">
           <a href="#interiorFileTable" onclick="auduitFileIndex.changeSelectParam('interior')" data-toggle="tab" class="nav-link active">
-            <!--  <span class="d-sm-none">Tab 1</span>-->
             <span class="d-sm-block d-none">内审文件</span>
           </a>
         </li>
         <li class="nav-items">
           <a href="#externalFileTable" onclick="auduitFileIndex.changeSelectParam('external')" data-toggle="tab" class="nav-link">
-            <!--  <span class="d-sm-none">Tab 2</span>-->
             <span class="d-sm-block d-none">外审文件</span>
           </a>
         </li>
@@ -86,25 +85,27 @@
       <div class="panel-body">
         <div id="searchBox" class="row" style="width:100%">
 
-          <label  class="col-form-label"  >名称:</label>
+          <label class="col-form-label">名称:</label>
           <div style="width:10%;">
-            <input type="text" class="form-control" name="docName" id="docName" placeholder="输入名称" value="" />
+            <input type="text" class="form-control" name="docName" id="docName" placeholder="输入名称" value=""/>
           </div>
 
-          <label  class="col-form-label"  >开始时间:</label>
+          <label class="col-form-label">开始时间:</label>
           <div style="width:10%;">
-            <input type="text" class="form-control" name="startDate" id="startDate" placeholder="输入时间" value="" />
+            <input type="text" class="form-control" name="startDate" id="startDate" placeholder="输入时间" value=""/>
           </div>
 
-          <label  class="col-form-label" >结束时间：</label>
+          <label class="col-form-label">结束时间：</label>
           <div style="width:10%; ">
-            <input type="text" class="form-control" name="endDate" id="endDate" placeholder="选择时间" value="" />
+            <input type="text" class="form-control" name="endDate" id="endDate" placeholder="选择时间" value=""/>
           </div>
 
           <div style="float: right">
-            <a >
-              <button type="button" class="fa fa-search btn btn-primary" onclick="auduitFileIndex.conditionSearch();">查询</button>
-              <button type="button" class="fa fa-plus btn btn-primary" data-toggle="modal" data-target="#auditFile-add-edit-modal">添加文档</button>
+            <a>
+                <button type="button" class="fa fa-search btn btn-primary" onclick="auduitFileIndex.conditionSearch();">查询</button>
+              <shiro:hasPermssion name="quality_document_management_addDoc">
+                <button type="button" class="fa fa-plus btn btn-primary" onclick="auduitFileIndex.showAddFileModal();">添加文档</button>
+              </shiro:hasPermssion>
             </a>
 
           </div>
@@ -157,109 +158,118 @@
   </div>
   <!-- end row -->
 
-  <form id="downloadForm" action="auditFile/download" method="post" type="hidden">
+  <form id="downloadForm" action="${BASEPATH}auditFile/download" method="post" type="hidden">
     <input id="docId" name="docId" value="" type="hidden"/>
   </form>
 
 </div>
 
-  <script src="assets/js/auditFile/auditFile-index.js"></script>
+<%-- begin external js --%>
+<script src="<%=request.getContextPath()%>/assets/admin/pages/scripts/auditFile/auditFile-index.js"></script>
+<%-- end external js--%>
 
 
-<script type="text/javascript" src="assets/plugins/bootstrap-fileinput/bootstrap-fileinput.js"></script>
-<script type="text/javascript" src="assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
-<script type="text/javascript" src="assets/plugins/jquery-form/jquery.form.js"></script>
-<script type="text/javascript" src="assets/plugins/jquery-validation/js/jquery.jquery-validation.min.js"></script>
-<script type="text/javascript" src="assets/plugins/jquery-validation/js/jquery-validate-decimal.js"></script>
-<script type="text/javascript" src="assets/plugins/DataTables/media/js/jquery.dataTables.js"></script>
-<script type="text/javascript" src="assets/plugins/select2/dist/js/select2.min.js"></script>
-<script type="text/javascript" src="assets/plugins/DataTables/media/js/dataTables.bootstrap.js"></script>
-<script type="text/javascript" src="assets/plugins/moment/moment-with-locales.min.js"></script>
-<script type="text/javascript" src="assets/plugins/jquery-tooltip/tooltipsy.min.js"></script>
-<script type="text/javascript" src="assets/plugins/DataTables/extensions/Scroller/js/dataTables.scroller.min.js"></script>
-<script type="text/javascript" src="assets/plugins/jquery-validation/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="assets/plugins/jquery-validation/js/jquery-validate-decimal.js"></script>
-<!--           begin   datetimepicker  js    -->
-<script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-<script src="assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
-<script src="assets/plugins/bootstrap-eonasdan-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
-<script src="assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
-<!--           begin   datetimepicker  js    -->
+<%-- begin plugins--%>
+<script type="text/javascript" src="<%=request.getContextPath()%>/assets/plugins/bootstrap-fileinput/bootstrap-fileinput.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/assets/plugins/jquery-form/jquery.form.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/assets/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/assets/plugins/jquery-validation/js/jquery-validate-decimal.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/assets/plugins/DataTables/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/assets/plugins/select2/dist/js/select2.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/assets/plugins/DataTables/media/js/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/assets/plugins/moment/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/assets/plugins/jquery-tooltip/tooltipsy.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/assets/plugins/DataTables/extensions/Scroller/js/dataTables.scroller.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/assets/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/assets/plugins/jquery-validation/js/jquery-validate-decimal.js"></script>
+<%-- end plugins--%>
+
+<!-- begin datetimepicker js -->
+<script src="<%=request.getContextPath()%>/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script src="<%=request.getContextPath()%>/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="<%=request.getContextPath()%>/assets/plugins/bootstrap-eonasdan-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+<script src="<%=request.getContextPath()%>/assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+<!-- begin datetimepicker js -->
 
 <!-- ================== END PAGE LEVEL JS ================== -->
 <script type="text/javascript">
-    var basepath ='';
-    $(document).ready(function() {
-        auduitFileIndex.init(basepath);
+    var basepath = '<%=request.getContextPath()%>/';
+    var permissions = "${sessionScope.permissions}"; //获取session 存在的权限
+    $(document).ready(function () {
+        auduitFileIndex.init(basepath,permissions);
     });
 </script>
 
 
+
 <div class="modal fade" id="auditFile-add-edit-modal" tabindex="-1" role="basic" aria-hidden="true"   data-backdrop="static" >
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title"></h4>
-                <!--<h4 class="modal-title"><i class="fa fa-pencil-square-o"></i></h4>-->
-                <!--  <button type="button" class="modal-title btn fa fa-pencil-square-o btn-primary"></button>-->
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-            <div class="modal-body">
-                <form id="auditFile-add-edit-form" action="#" class="form-horizontal single-line-form"enctype="multipart/form-data" method="post">
-                    <input id="docId" name="docId"   type="hidden"/>
-                    <!-- begin panel -->
-                    <div class="panel panel-inverse">
-                        <!-- begin panel-body -->
-                        <div class="panel-body">
-                            <div class="form-group row  m-b-13">
-                                <label class="col-md-2 col-form-label-form" ><span class="required" style="color:red">*</span>名&nbsp;&nbsp;&nbsp;称:</label>
-                                <div class="col-md-9 margin-bottom-10">
-                                    <input id="docName" name="docName" type="text" class="form-control maxlength-handler  input-icon" maxlength="20" value="">
-                                </div>
-                            </div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"></h4>
+        <!--<h4 class="modal-title"><i class="fa fa-pencil-square-o"></i></h4>-->
+        <!--  <button type="button" class="modal-title btn fa fa-pencil-square-o btn-primary"></button>-->
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      </div>
+      <div class="modal-body">
+        <form id="auditFile-add-edit-form" action="#" class="form-horizontal single-line-form"enctype="multipart/form-data" method="post">
+          <input id="docId" name="docId"   type="hidden"/>
+          <!-- begin panel -->
+          <div class="panel panel-inverse">
+            <!-- begin panel-body -->
+            <div class="panel-body">
+              <div class="form-group row  m-b-13">
+                <label class="col-md-2 col-form-label-form" ><span class="required" style="color:red">*</span>名&nbsp;&nbsp;&nbsp;称:</label>
+                <div class="col-md-9 margin-bottom-10">
+                  <input id="docName" name="docName" type="text" class="form-control maxlength-handler  input-icon" maxlength="20" value="">
+                </div>
+              </div>
 
 
-                            <div class="form-group row m-b-15">
-                                <label class="col-md-2 col-form-label-form"><span  style="color: red"> </span>文&nbsp;&nbsp;&nbsp;件:</label>
-                                <div id="aduitFileNameDiv" class=" col-md-9 fileinput fileinput-new"  style="padding-left:10px" data-provides="fileinput">
-                                    <div class="input-group">
-                                        <div class="form-control uneditable-input col-md-9">
-                                            <span class="fa fa-file fileinput-exists fileinput-filename" title=""  id="auditFileName"></span>
-                                        </div>
-                                        <span class="input-group-addon btn default btn-file">
+              <div class="form-group row m-b-15">
+                <label class="col-md-2 col-form-label-form"><span  style="color: red"> </span>文&nbsp;&nbsp;&nbsp;件:</label>
+                <div id="aduitFileNameDiv" class=" col-md-9 fileinput fileinput-new"  style="padding-left:10px" data-provides="fileinput">
+                  <div class="input-group">
+                    <div class="form-control uneditable-input col-md-9">
+                      <span class="fa fa-file fileinput-exists fileinput-filename" title=""  id="auditFileName"></span>
+                    </div>
+                    <span class="input-group-addon btn default btn-file">
 									    <a href="javascript:" class="fileinput-new" style="cursor: pointer">选择</a>
 									    <a href="javascript:" class="fileinput-exists" style="cursor: pointer">重选</a>
 									    <input type="file" id="auditFile" name="auditFile"  aria-invalid="false" class="valid" >
 								    </span>
-                                        <a href="javascript:" class="input-group-addon btn red fileinput-exists" style="cursor: pointer" data-dismiss="fileinput">清除</a>
-                                    </div>
-                                    <p class="help-block">请上传文件</p>
-                                </div>
-                            </div>
-
-                            <div class="form-group row m-b-15">
-                                <label class="col-md-2 col-form-label-form">备&nbsp;&nbsp;&nbsp;&nbsp;注:</label>
-                                <div class="col-md-9 margin-bottom-10">
-                                    <textarea class="input-icon form-control maxlength-handler" rows="4" id="remark" name="remark" ></textarea>
-                                    <span  style="margin-top: 5px; margin-bottom: 10px; display: block">最多255个字符 </span>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
-                    <input type="reset" id="doc-reset" hidden="true"/>
-                </form>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-md-8 offset-md-8">
-                    <button type="button" onclick="auduitFileIndex.saveAuditFile()" class="btn btn-sm btn-primary m-r-5"><i class="fa fa-check"></i>确定</button>
-                    <button type="button" data-dismiss="modal" class="btn btn-sm btn-default"><i class="fa fa-times"></i>取消</button>
+                    <a href="javascript:" class="input-group-addon btn red fileinput-exists" style="cursor: pointer" data-dismiss="fileinput">清除</a>
+                  </div>
+                  <p class="help-block">请上传文件</p>
                 </div>
-            </div>
+              </div>
 
+              <div class="form-group row m-b-15">
+                <label class="col-md-2 col-form-label-form">备&nbsp;&nbsp;&nbsp;&nbsp;注:</label>
+                <div class="col-md-9 margin-bottom-10">
+                  <textarea class="input-icon form-control maxlength-handler" rows="4" id="remark" name="remark" ></textarea>
+                  <span  style="margin-top: 5px; margin-bottom: 10px; display: block">最多255个字符 </span>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+          <input type="reset" id="doc-reset" hidden="true"/>
+        </form>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-md-8 offset-md-8">
+          <button type="button" onclick="auduitFileIndex.saveAuditFile()" class="btn btn-sm btn-primary m-r-5"><i class="fa fa-check"></i>确定</button>
+          <button type="button" data-dismiss="modal" class="btn btn-sm btn-default"><i class="fa fa-times"></i>取消</button>
         </div>
+      </div>
+
     </div>
+  </div>
 </div>
+
+
 
