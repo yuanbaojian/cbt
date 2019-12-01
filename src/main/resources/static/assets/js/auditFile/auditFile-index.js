@@ -22,15 +22,23 @@ var auduitFileIndex=function () {
     var tbl_interiorFile="#tbl_interiorFile";
     var tbl_externalFile="#tbl_externalFile";
 
+    //权限校验
+    var canDownload=false;
+    var canEdit=false;
+    var canPreview=false;
+    var canDelete=false;
+
     return{
 
-        init:function (basePath) {
+        init:function (basePath,permissions) {
             basepath=basePath;
             auduitFileIndex.changeSelectParam("interior");
             auduitFileIndex.initAuditFileGrid(externalAuditFileGrid, tbl_externalFile, externalFile);
             auduitFileIndex.initAuditFileGrid(interiorAuditFileGrid, tbl_interiorFile, interiorFile);
             auduitFileIndex.initDatePicker();
             auduitFileIndex.initValidate();
+            auduitFileIndex.initAuthority(permissions);
+            auduitFileIndex.initFileNameListener();
         },
 
         initValidate:function(){
@@ -110,19 +118,26 @@ var auduitFileIndex=function () {
                             } ],
                             // 填入列数据
                             "columns" : [
-                                {"data" : "docName"},
+                                {"data" : "docName","width": "20%"},
                                 {"data" : "fileType"},
                                 {"data" : "fileSizeLength"},
-                                {"data" : "remark"},
-                                {"data" : "updateByString"},
+                                {"data" : "remark", "width": "20%"},
+                                {"data" : "updateByString","width": "12%"},
                                 {"data" : function( row, type, val, meta ){
                                         return moment(row.updateTime).format('YYYY-MM-DD HH:mm');
                                     }, "width": "15%"},
                                 { "data": null, "mRender":function(data,type,full){
-                                        return "<a href='javascript:void(0)'  title=\"修改\" onclick=\"auduitFileIndex.showUpdateAuditFileModal(this)\" >修改</a>&nbsp;&nbsp;"
-                                       + "<a href='javascript:void(0)'  title=\"删除\" onclick=\"auduitFileIndex.deleteAuditFile(this)\" >删除</a>&nbsp;&nbsp;"
-                                       + "<a href='javascript:void(0)'  title=\"下载\" onclick=\"auduitFileIndex.downloadAuditFile(this)\" >下载</a>&nbsp;&nbsp;";
-
+                                        let result="";
+                                        if(canEdit){
+                                            result += "<a href='javascript:void(0)'  title=\"修改\"onclick=\"auduitFileIndex.showUpdateAuditFileModal(this)\" >修改</a>&nbsp;&nbsp;"
+                                        }
+                                        if(canDelete){
+                                            result +="<a href='javascript:void(0)'  title=\"删除\" onclick=\"auduitFileIndex.deleteAuditFile(this)\" >删除</a>&nbsp;&nbsp;"
+                                        }
+                                        if(canDownload){
+                                            result +="<a href='javascript:void(0)' title=\"下载\"  id=\"download\" onclick=\"auduitFileIndex.downloadAuditFile(this)\">下载</a>"
+                                        }
+                                        return  result;
                                     }, "width": "12%"}
                             ],
                             "oLanguage" : {
@@ -184,6 +199,7 @@ var auduitFileIndex=function () {
 
 
         showAddFileModal:function () {
+            $('#auditFile-add-edit-form').validate().resetForm();
             $('#docId').val("");
             if( $("a[href='#interiorFileTable']").hasClass("active") ){
                 $('#auditFile-add-edit-modal .modal-header .modal-title').empty().html('<button type="button" class="fa fa-plus btn btn-primary btn-xs" ></button>  添加内审文件');
@@ -234,7 +250,7 @@ var auduitFileIndex=function () {
             }
         },
 
-        updateAuditFile:function() {
+        updateAuditFile: function () {
             var ifRepeated=auduitFileIndex.checkNameRepeated();
             if(ifRepeated){
                 bootbox.alert("名称 " + "<span style=\"color:red;\">"
@@ -273,7 +289,7 @@ var auduitFileIndex=function () {
             }
         },
 
-        saveAuditFile:function() {
+        saveAuditFile: function () {
             var url;
             if($('#docId').val()==""){
                 auduitFileIndex.insertAuditFile();
@@ -351,7 +367,7 @@ var auduitFileIndex=function () {
                 }
             });
         },
-        showUpdateAuditFileModal:function(ele) {
+        showUpdateAuditFileModal: function (ele) {
             if( $("a[href='#interiorFileTable']").hasClass("active") ){
                 selectedGrid=interiorAuditFileGrid;
             } else {
@@ -382,8 +398,8 @@ var auduitFileIndex=function () {
             }
             $("#auditFile-add-edit-modal").modal("show");
         },
-        getFilePathByDocId:function(docId) {
-            var filePath;
+        getFilePathByDocId: function (docId) {
+            let filePath;
             $.ajax({
                 url:basepath+ "auditFile/getFilePathByDocId/"+ docId,
                 type:"get",
@@ -418,7 +434,7 @@ var auduitFileIndex=function () {
             }
         },
 
-        downloadAuditFile:function(ele) {
+        downloadAuditFile: function (ele) {
             if( $("a[href='#interiorFileTable']").hasClass("active") ){
                 selectedGrid=interiorAuditFileGrid;
             } else {
@@ -461,6 +477,32 @@ var auduitFileIndex=function () {
                 result=true;
             }
             return result;
+        },
+
+        initAuthority:function(permissionsJsp) {
+            var permissionArr = [];
+            if(permissionsJsp){ //这里相当于隔离了未登录
+                permissionArr = permissionsJsp.replace('[', '').replace(']', '').replace(/\s+/g, "").split(",");
+            }
+            var i = 0, length = permissionArr && permissionArr.length;
+            for (; i < length; i++) {
+                if (permissionArr[i] == 'quality_document_management_editDoc') {
+                    canEdit= true;
+                } else if (permissionArr[i] == 'quality_document_management_deleteDoc') {
+                    canDelete= true;
+                } else if (permissionArr[i] == 'quality_document_management_downloadDoc') {
+                    canDownload= true;
+                }
+            }
+        },
+        initFileNameListener:function() {
+            $('#auditFileName').bind('DOMNodeInserted',function(e) {
+                if($("#docName").val()=="" ){
+                    var originalFileName = $("#auditFileName").html();
+                    var fileName=originalFileName.substring(0, originalFileName.lastIndexOf('.'));
+                    $("#docName").val(fileName);
+                }
+            })
         }
     }
 

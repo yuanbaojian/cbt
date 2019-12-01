@@ -27,11 +27,10 @@ public interface AuditFileServiceI {
      * @param user
      * @param docType
      * @param ifInsert
-     * @return void
      * @author baojian.yuan
      * @date 2019/10/15
      */
-    Doc setAttribute(Doc document, MultipartFile auditFile, User user, String docType, boolean ifInsert);
+    void setAttribute(Doc document, MultipartFile auditFile, User user, String docType, boolean ifInsert);
 
     /***
      * @Description 插入文件
@@ -61,7 +60,7 @@ public interface AuditFileServiceI {
      * @author baojian.yuan
      * @date 2019/10/15
      */
-    void storeAuditFile(Long docId, MultipartFile auditFile) throws IOException;
+    String storeAuditFile(Long docId, MultipartFile auditFile) throws IOException;
 
     /***
      * @Description 根据ID 更新其 文件路径
