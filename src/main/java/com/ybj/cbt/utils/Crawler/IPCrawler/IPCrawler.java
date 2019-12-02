@@ -17,23 +17,21 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class IPCrawler {
+    private static String HTTP_API = "https://www.xicidaili.com/wt/";
+    private static String HTTPS_API = "https://www.xicidaili.com/wn/";
+    static String httpsUrl="https://www.xicidaili.com/wt/";
 
     public static void main(String[] args) throws IOException {
-        Website website = new Website() {
-            @Override
-            public String getPureSrc(String rawSrc) {
-                return rawSrc;
-            }
 
-        };
-        website.setURL("https://www.xicidaili.com/wt/1");
-        website.setSelector("tr");
-        website.setAttr("data-original");
-        website.setDescFolder("G:/crawler/budejie/");
-        List<IPBean> ipBeans = startCrawl(website);
-        List<IPBean> usefulIpList = new LinkedList<>();
-        int validNumber = 0;
-        int count = 0;
+        int pageNumber=2;
+        List<IPBean> ipBeans = getIPBeanList(HTTPS_API,pageNumber);
+        List<IPBean> availableIp = getAvailableIp(ipBeans);
+        System.out.println("availableIp = " + availableIp);
+
+    }
+
+    public static List<IPBean> getAvailableIp(List<IPBean> ipBeans){
+        List<IPBean> availableIPList=null;
         for (IPBean ipBean : ipBeans) {
             new Thread(new Runnable() {
                 @Override
@@ -52,21 +50,30 @@ public class IPCrawler {
             if (IPBeanList.getCount() == ipBeans.size()) {
                 System.out.println("共爬取到  " + ipBeans.size() + " 个IP");
                 System.out.println("共爬取到  " + IPBeanList.getSize() + " 个有用的IP");
+                availableIPList= IPBeanList.getIpBeanList();
                 break;
             }
         }
-
+        return availableIPList;
     }
 
-    public static List<IPBean> startCrawl(Website website) throws IOException {
+    public static List<IPBean> getIPBeanList(String urlString, int pageNumber) throws IOException {
+        List<IPBean> ipBeanList=new LinkedList<>();
+        for(int i=1; i<=pageNumber;i++){
+            ipBeanList.addAll(startCrawl(urlString+i));
+        }
+        return ipBeanList;
+    }
+
+    public static List<IPBean> startCrawl(String  urlString) throws IOException {
         List<IPBean> ipBeanList = new LinkedList<>();
-        URL url = new URL(website.getURL());
+        URL url = new URL(urlString);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.81 Safari/537.36");
 
         String urlSource = IOUtils.toString(conn.getInputStream(), "utf-8");
         Document doc = Jsoup.parse(urlSource);
-        Elements elements = doc.select(website.getSelector());
+        Elements elements = doc.select("tr");
         for (int i = 0; i < elements.size(); i++) {
             if (i == 0) {
                 continue;
@@ -82,15 +89,6 @@ public class IPCrawler {
     }
 
 
-    public static void startDownload(String urlString, String descPrefix, int serialNumber) throws IOException {
-        String filePath = descPrefix + getFileName(urlString);
-        URL url = new URL(urlString);
-        FileUtils.copyURLToFile(url, new File(filePath));
-    }
-
-    public static String getFileName(String urlString) {
-        return urlString.substring(urlString.lastIndexOf("/"), urlString.length());
-    }
 
 
 }

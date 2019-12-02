@@ -18,6 +18,10 @@ public class IPBeanList {
         return ipBeanList.size();
     }
 
+    public static List<IPBean> getIpBeanList(){
+        return ipBeanList;
+    }
+
 
     public static synchronized void increase() {
         count++;
