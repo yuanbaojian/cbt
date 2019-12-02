@@ -36,7 +36,7 @@ public class Simple {
             }
 
         };
-        website.setURL("http://www.budejie.com/pic/");
+        website.setURL("https://www.google.com/");
         website.setSelector("img[class=lazy]");
         website.setAttr("data-original");
         website.setDescFolder("G:/crawler/budejie/");

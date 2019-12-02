@@ -1,11 +1,14 @@
 
 package com.ybj.cbt.utils;
 
+import com.ybj.cbt.common.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
@@ -142,7 +145,7 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 		// 先尝试直接删除
 		if (!(rslt = flie.delete())) {
 			// 若文件夹非空枚举、递归删除里面内容
-			File subs[] = flie.listFiles();
+			File[] subs = flie.listFiles();
 			for (int i = 0; i <= subs.length - 1; i++) {
 				if (subs[i].isDirectory()) {
 					// 递归删除子文件夹内容
@@ -159,17 +162,29 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 		return;
 	}
 
+	/***
+	 * @Description 拷贝一个目录下的文件到另一个文件夹下
+	 * @param srcDirPath
+	 * @param descDirPath
+	 * @return void
+	 * @author baojian.yuan
+	 * @date 2019/9/4
+	 */
+	public static void cpoyFileUnderDirectoryToDirectory(String srcDirPath, String descDirPath) {
 
-	
+	}
+
+
 	/**
-	 * 复制整个目录的内容 
-	 * @param srcDirName 源目录名
+	 * 复制整个目录的内容
+	 *
+	 * @param srcDirName  源目录名
 	 * @param descDirName 目标目录名
-	 * @param coverlay 如果目标目录存在，是否覆盖
+	 * @param coverlay    如果目标目录存在，是否覆盖
 	 * @return 如果复制成功返回true，否则返回false
 	 */
 	public static boolean copyDirectoryCover(String srcDirName,
-			String descDirName, boolean coverlay) {
+											 String descDirName, boolean coverlay) {
 		File srcDir = new File(srcDirName);
 		// 判断源目录是否存在
 		if (!srcDir.exists()) {
@@ -342,6 +357,239 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 
 	}
 
+	/**
+	 * 创建单个空白文件 <br>
+	 * 文件存在时，不创建新的空白文件
+	 *
+	 * @param descFileName 文件名，包含路径
+	 * @return 如果创建成功，则返回true，否则返回false
+	 */
+	public static boolean createFile(String descFileName) {
+		File file = new File(descFileName);
+		if (file.exists()) {
+			log.debug("文件 " + descFileName + " 已存在!");
+			return false;
+		}
+		if (descFileName.endsWith(File.separator)) {
+			log.debug(descFileName + " 为目录，不能创建目录!");
+			return false;
+		}
+		if (!file.getParentFile().exists()) {
+			// 如果文件所在的目录不存在，则创建目录
+			if (!file.getParentFile().mkdirs()) {
+				log.debug("创建文件所在的目录失败!");
+				return false;
+			}
+		}
+
+		// 创建文件
+		try {
+			if (file.createNewFile()) {
+				log.debug(descFileName + " 文件创建成功!");
+				return true;
+			} else {
+				log.debug(descFileName + " 文件创建失败!");
+				return false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.debug(descFileName + " 文件创建失败!");
+			return false;
+		}
+
+	}
+
+	/**
+	 * 创建目录
+	 *
+	 * @param dirPath 目录名
+	 *                如果创建成功，则返回true，否则返回false
+	 *                如果文件存在， 就不创建
+	 */
+	public static boolean createDirectory(String dirPath) {
+		File file = new File(dirPath);
+		Boolean result = true;
+		try {
+			file.mkdirs();
+		} catch (Exception e) {
+			result = false;
+		}
+		return result;
+	}
+
+	/**
+	 * 写入文件
+	 *
+	 * @param
+	 */
+	public static void writeToFile(String fileName, String content, boolean append) {
+		try {
+			FileUtils.write(new File(fileName), content, "utf-8", append);
+			log.debug("文件 " + fileName + " 写入成功!");
+		} catch (IOException e) {
+			log.debug("文件 " + fileName + " 写入失败! " + e.getMessage());
+		}
+	}
+
+	/**
+	 * 写入文件
+	 *
+	 * @param
+	 */
+	public static void writeToFile(String fileName, String content, String encoding, boolean append) {
+		try {
+			FileUtils.write(new File(fileName), content, encoding, append);
+			log.debug("文件 " + fileName + " 写入成功!");
+		} catch (IOException e) {
+			log.debug("文件 " + fileName + " 写入失败! " + e.getMessage());
+		}
+	}
+
+
+	/**
+	 * 获取待压缩文件在ZIP文件中entry的名字，即相对于跟目录的相对路径名
+	 *
+	 * @param
+	 * @param file entry文件名
+	 * @return
+	 */
+	private static String getEntryName(String dirPath, File file) {
+		String dirPaths = dirPath;
+		if (!dirPaths.endsWith(File.separator)) {
+			dirPaths = dirPaths + File.separator;
+		}
+		String filePath = file.getAbsolutePath();
+		// 对于目录，必须在entry名字后面加上"/"，表示它将以目录项存储
+		if (file.isDirectory()) {
+			filePath += "/";
+		}
+		int index = filePath.indexOf(dirPaths);
+
+		return filePath.substring(index + dirPaths.length());
+	}
+
+
+	/**
+	 * 根据传递的新名字  重命名某个文件夹下的文件
+	 *
+	 * @param dir
+	 * @param name
+	 */
+	public static void renameFile(String dir, String name) {
+
+		File fileDir = new File(dir);
+		for (File file : fileDir.listFiles()) {
+
+			String fileName = file.getName();
+			int dotIndex = fileName.indexOf(".");
+			String prefix = fileName.substring(0, dotIndex + 1);
+			String suffix = ".unityweb";
+
+			if (fileName.endsWith(".unityweb")) {
+				fileName = fileName.replace(prefix, name + Constants.FILE_CONNECT);
+			}
+			File newFile = new File(dir + File.separator + fileName);
+			file.renameTo(newFile);
+
+		}
+	}
+
+//	/**
+//	 * 修复路径，将 \\ 或 / 等替换为 File.separator
+//	 * @param path
+//	 * @return
+//	 */
+//	public static String path(String path){
+//		String p = StringUtils.replace(path, "\\", "/");
+//		p = StringUtils.join(StringUtils.split(p, "/"), "/");
+//		if (!StringUtils.startsWithAny(p, "/") && StringUtils.startsWithAny(path, "\\", "/")){
+//			p += "/";
+//		}
+//		if (!StringUtils.endsWithAny(p, "/") && StringUtils.endsWithAny(path, "\\", "/")){
+//			p = p + "/";
+//		}
+//		return p;
+//	}
+
+
+	/**
+	 * 修改替换json文件部分内容
+	 *
+	 * @throws IOException
+	 */
+//	public static void replaceFileContent(String filePath, String folderName) throws IOException {
+//		String jsonString = JsonUtils.readJsonFile(filePath);
+//
+//		JSONObject jsonObject = JSONObject.fromObject(jsonString);
+//		//取出json对象对对应的value
+//		String dataUrl = jsonObject.getString("dataUrl");
+//		String asmCodeUrl = jsonObject.getString("asmCodeUrl");
+//		String asmMemoryUrl = jsonObject.getString("asmMemoryUrl");
+//		String asmFrameworkUrl = jsonObject.getString("asmFrameworkUrl");
+//		//修改json文件对应的值
+//		dataUrl = dataUrl.replace(dataUrl.substring(0, dataUrl.indexOf(".")), folderName);
+//		asmCodeUrl = asmCodeUrl.replace(asmCodeUrl.substring(0, asmCodeUrl.indexOf(".")), folderName);
+//		asmMemoryUrl = asmMemoryUrl.replace(asmMemoryUrl.substring(0, asmMemoryUrl.indexOf(".")), folderName);
+//		asmFrameworkUrl = asmFrameworkUrl.replace(asmFrameworkUrl.substring(0, asmFrameworkUrl.indexOf(".")), folderName);
+//		//修改jsonObject的值
+//		jsonObject.put("dataUrl", dataUrl);
+//		jsonObject.put("asmCodeUrl", asmCodeUrl);
+//		jsonObject.put("asmMemoryUrl", asmMemoryUrl);
+//		jsonObject.put("asmFrameworkUrl", asmFrameworkUrl);
+//		//重新写入
+//		jsonString = JSON.toJSONString(jsonObject);
+//		JsonUtils.writeJsonFile(jsonString, filePath);
+//
+//	}filePath
+
+//	/**  下载远程服务器文件
+//	 * @param request
+//	 * @param response
+//	 * @param filePath  eg: planeModel\666\materialLibrary\1210\ExcelUtils.java
+//	 * @param fileName  eg: ExcelUtils
+//	 * @param extName   eg: java
+//	 * @throws IOException
+//	 */
+//	public static void remoteFileDownload(HttpServletRequest request, HttpServletResponse response, @RequestParam("filePath") String filePath, @RequestParam("fileName") String fileName, @RequestParam("extName") String extName) throws IOException {
+//		String serverPath = Global.getDataVaultUrl(request, "");
+//		String fileSrc = serverPath + filePath;
+//		fileSrc = fileSrc.replace("\\", "/");
+//		int backslashIndex=fileSrc.lastIndexOf("/");
+//		//进行转码, 防止中文名出错
+//		fileSrc=fileSrc.substring(0,backslashIndex+1	)+  URLEncoder.encode( fileSrc.substring(backslashIndex+1), "utf-8");
+//		//将 “+” 还原成空格。  万一原来文件有“+” 怎么办
+//		fileSrc=fileSrc.replaceAll("\\+", "%20");
+//		URL url = new URL(fileSrc);
+//		BufferedInputStream in = null;
+//		in = new BufferedInputStream(url.openStream());
+//		response.reset();
+//		response.setContentType("application/x-msdownload; charset=UTF-8");
+//		response.setHeader("Content-Disposition",
+//				"attachment;filename=\"" + URLEncoder.encode(fileName+"."+extName, "UTF-8") + "\"");
+//		OutputStream out = response.getOutputStream();
+//		byte[] content = new byte[1024];
+//		int length = 0;
+//		int i;
+//		while ((i = in.read()) != -1) {
+//			response.getOutputStream().write(i);
+//		}
+//		in.close();
+//		response.getOutputStream().close();
+//	}
+	public static boolean checkFileExisted(String fileSrc) throws IOException {
+		boolean ifExisted;
+		//检测文件是否存在
+		URL url = new URL(fileSrc);
+		//打开请求连接
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		//result.put("pdf", "notReady");
+		int responseCode = connection.getResponseCode();
+		ifExisted = responseCode != 404;
+		return ifExisted;
+
+
+	}
+
 
 	/***
 	 * @Description 下载服务器文件
@@ -351,24 +599,23 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 	 * @author baojian.yuan
 	 * @date 2019/9/3
 	 */
-	public static void remoteFileDownload(String fileSrc, HttpServletResponse response) throws IOException {
-
+	public static void DownloadRemoteFile(String fileSrc, HttpServletResponse response) throws IOException {
 		fileSrc = fileSrc.replace("\\", "/");
-		int backslashIndex=fileSrc.lastIndexOf("/");
-		int lastCommaIndex=fileSrc.lastIndexOf(".");
-		String fileName=fileSrc.substring(backslashIndex+1);
-		String extName=fileSrc.substring(lastCommaIndex+1);
+		int backslashIndex = fileSrc.lastIndexOf("/");
+		int lastCommaIndex = fileSrc.lastIndexOf(".");
+		String fileName = fileSrc.substring(backslashIndex + 1);
+		String extName = fileSrc.substring(lastCommaIndex + 1);
 		//进行转码, 防止中文名出错
-		fileSrc=fileSrc.substring(0,backslashIndex+1	)+  URLEncoder.encode( fileName, "utf-8");
+		fileSrc = fileSrc.substring(0, backslashIndex + 1) + URLEncoder.encode(fileName, "utf-8");
 		//将 “+” 还原成空格。  万一原来文件有“+” 怎么办
-		fileSrc=fileSrc.replaceAll("\\+", "%20");
+		fileSrc = fileSrc.replaceAll("\\+", "%20");
 		URL url = new URL(fileSrc);
 		BufferedInputStream in = null;
 		in = new BufferedInputStream(url.openStream());
 		response.reset();
 		response.setContentType("application/x-msdownload; charset=UTF-8");
 		response.setHeader("Content-Disposition",
-				"attachment;filename=\"" + URLEncoder.encode(fileName, "UTF-8") + "\"");
+				"attachment;filename=\"" + URLEncoder.encode(fileName, "UTF-8").replaceAll("\\+", "%20") + "\"");
 		OutputStream out = response.getOutputStream();
 		byte[] content = new byte[1024];
 		int length = 0;
@@ -380,43 +627,106 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 		response.getOutputStream().close();
 	}
 
-	/***
-	 *    缓冲输入输出流   进行文件的复制
-	 * @param src   源文件地址
-	 * @param out   目标文件地址
-	 * @return void
-	 * @author baojian.yuan
-	 * @date 2019/11/14
+	/**
+	 * 把源文件夹下的文件拷贝到目标文件夹
+	 * 递归
+	 *
+	 * @param folderPath 传递过来的目标文件夹地址
 	 */
-	public static void bufferInputStreamBufferOutputStream(String src, String out) {
-		BufferedOutputStream bufferedOutputStream = null;
-		BufferedInputStream bufferedInputStream = null;
-		try {
-			bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(out));
-			bufferedInputStream = new BufferedInputStream(new FileInputStream(src));
-			byte[] bytes = new byte[1024];
-			int num = 0;
-			while ((num = bufferedInputStream.read(bytes)) != -1) {
-				bufferedOutputStream.write(bytes, 0, num);
-				bufferedOutputStream.flush();
-			}
+	public static void moveFileToDirectoryFor3D(String folderPath) throws IOException {
+		File desc = new File(folderPath);
+		File[] directoriesUnderDesc = getDirectoryList(folderPath);
+		for (File src : directoriesUnderDesc) {
+			FileUtils.copyDirectory(src, desc);
+			FileUtils.delAll(src);
+		}
+		while (getDirectoryList(folderPath).length != Constants.ZERO) {
+			moveFileToDirectoryFor3D(folderPath);
+		}
+	}
 
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				bufferedOutputStream.close();
-				bufferedInputStream.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+	/***
+	 * @Description 获得某个文件夹下的所有文件夹对象
+	 * @param folderPath
+	 * @return java.io.File[]
+	 * @author baojian.yuan
+	 * @date 2019/9/17
+	 */
+	public static File[] getDirectoryList(String folderPath) {
+		FileFilter directoryFilter = new FileFilter() {
+			public boolean accept(File file) {
+				return file.isDirectory();
+			}
+		};
+		File desc = new File(folderPath);
+		File[] directoriesUnderDesc = desc.listFiles(directoryFilter);
+		return directoriesUnderDesc;
+	}
+
+	/***
+	 * @Description 判定某个文件夹下是否包含某个文件夹
+	 * @param folderPath
+	 * @param folderName
+	 * @return java.lang.Boolean
+	 * @author baojian.yuan
+	 * @date 2019/9/17
+	 */
+	public static Boolean judgeDirectoryExists(String folderPath, String folderName) {
+		boolean result = false;
+		File[] directoriesUnderDesc = FileUtils.getDirectoryList(folderPath);
+		for (File dir : directoriesUnderDesc) {
+			//如果存在APP文件夹，解压到NEWAPP文件夹
+			if (folderName.equals(dir.getName())) {
+				result = true;
 			}
 		}
+		return result;
+	}
 
+	/***  将上传的multiparFile类型的文件，写入到目标文件中
+	 * @param multipartFile
+	 * @param descFilePath
+	 * @return void
+	 * @author baojian.yuan
+	 * @date 2019/11/22
+	 */
+	public static void multipartFileToFIle(MultipartFile multipartFile, String descFilePath) throws IOException {
+		File descFile = new File(descFilePath);
+		multipartFile.transferTo(descFile);
 	}
 
 
+	/***   删除所有文件文件夹， 包括自身
+	 * @param pathOrFile  字符串类型/ 文件类型
+	 * @return void
+	 * @author baojian.yuan
+	 * @date 2019/11/22
+	 */
+	public static <T> Boolean deleteAll(T pathOrFile) throws IOException {
+		Boolean result = true;
+		File file = null;
+		if (pathOrFile instanceof String) {
+			file = new File((String) pathOrFile);
+		} else {
+			file = (File) pathOrFile;
+		}
+		if (file.exists()) {
+			if (!(result = file.delete())) {
+				File[] subs = file.listFiles();
+				for (int i = 0; i <= subs.length - 1; i++) {
+					if (subs[i].isDirectory()) {
+						deleteAll(subs[i]);
+					}
+					result = subs[i].delete();
+				}
+				result = file.delete();
+			}
+		}
+		if (!result) {
+			throw new IOException("无法删除:" + file.getName());
+		}
+		return result;
+	}
 }
 
 

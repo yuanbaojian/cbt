@@ -12,7 +12,7 @@ class FileUtilsTest {
   void bufferInputStreamBufferOutputStream() {
     String src="C:\\Users\\baojian.yuan\\Desktop\\亚博发票\\发票.pdf";
     String desc="C:\\Users\\baojian.yuan\\Desktop\\desc\\1.pdf";
-    FileUtils.bufferInputStreamBufferOutputStream(src,desc);
+//    FileUtils.bufferInputStreamBufferOutputStream(src,desc);
   }
 
   @Test

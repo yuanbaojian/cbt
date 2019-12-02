@@ -1,20 +1,13 @@
 //package com.ybj.cbt.serverImplement;
 //
-//import com.atoz.cbtsys.common.Constants;
-//import com.atoz.cbtsys.common.utils.DateUtils;
-//import com.atoz.cbtsys.common.utils.FileUtils;
-//import com.atoz.cbtsys.common.utils.StringUtils;
-//import com.atoz.cbtsys.dao.DocMapper;
-//import com.atoz.cbtsys.model.Doc;
-//import com.atoz.cbtsys.model.User;
-//import com.atoz.cbtsys.server.util.PropertiesUtil;
-//import com.atoz.cbtsys.service.AuditFileServiceI;
 //import com.ybj.cbt.common.Constants;
 //import com.ybj.cbt.mapper.DocMapper;
 //import com.ybj.cbt.model.Doc;
 //import com.ybj.cbt.model.User;
 //import com.ybj.cbt.serverInterface.AuditFileServiceI;
 //import com.ybj.cbt.utils.DateUtils;
+//import com.ybj.cbt.utils.FileUtils;
+//import com.ybj.cbt.utils.PropertiesUtil;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.stereotype.Service;
 //import org.springframework.web.multipart.MultipartFile;
@@ -51,7 +44,7 @@
 //    }
 //
 //    @Override
-//    public void setAttribute(Doc document, MultipartFile auditFile, User user, String docType, boolean ifInsert) {
+//    public Doc setAttribute(Doc document, MultipartFile auditFile, User user, String docType, boolean ifInsert) {
 //        if (auditFile != null && auditFile.getSize() >0){
 //            Double fileSizeDouble= (auditFile.getSize()/1024.00/1024.00);
 //            DecimalFormat df = new DecimalFormat("#.##");
@@ -74,6 +67,7 @@
 //        }
 //        document.setUpdatedBy(Long.valueOf(user.getUserId()));
 //        document.setUpdateTime(new Date());
+//        return document;
 //    }
 //
 //    @Override
@@ -99,17 +93,17 @@
 //    }
 //
 //    @Override
-//    public String storeAuditFile(Long docId, MultipartFile auditFile) throws IOException {
-//        Doc oldDoc=documentMapper.selectByPrimaryKey(docId);
-//        if(oldDoc.getFilePath()!=null){
-//            String oldFilePath=PropertiesUtil.getMsgsMap().get("storehouse_path") + File.separator +oldDoc.getFilePath();
-//            FileUtils.deleteFile(oldFilePath);
+//    public void storeAuditFile(Long docId, MultipartFile auditFile) throws IOException {
+//        if(auditFile!=null){
+//            String dir = "springboot/project" + File.separator
+//                    + Constants.AUDIT_FILE + File.separator +
+//                    docId + File.separator;
+//            String fullPath=dir+ auditFile.getOriginalFilename();
+//            storeFile(dir,fullPath,auditFile);
+//            String pathInDb=Constants.AUDIT_FILE + File.separator +
+//                    docId + File.separator+auditFile.getOriginalFilename();
+//            updateFilePath(docId, pathInDb);
 //        }
-//        String fullPath= StringUtils.joinWithFileSeparator(PropertiesUtil.getMsgsMap().get("storehouse_path"),Constants.AUDIT_FILE,docId,auditFile.getOriginalFilename());
-//        FileUtils.createFile(fullPath);
-//        FileUtils.multipartFileToFIle(auditFile, fullPath);
-//        String pathInDb=StringUtils.joinWithFileSeparator(Constants.AUDIT_FILE,docId,auditFile.getOriginalFilename());
-//        return pathInDb;
 //    }
 //
 //
@@ -126,8 +120,10 @@
 //
 //    @Override
 //    public void deleteFileByDocId(String docId) throws IOException {
-//        String dir=StringUtils.joinWithFileSeparator(PropertiesUtil.getMsgsMap().get("storehouse_path"),Constants.AUDIT_FILE,docId);
-//        FileUtils.deleteAll(dir);
+//        String dir = PropertiesUtil.getMsgsMap().get("storehouse_path") + File.separator
+//                + Constants.AUDIT_FILE + File.separator
+//                + docId + File.separator;
+//        FileUtils.delAll(new File(dir));
 //    }
 //
 //    @Override
