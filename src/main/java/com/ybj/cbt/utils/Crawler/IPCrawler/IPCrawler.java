@@ -2,16 +2,15 @@ package com.ybj.cbt.utils.Crawler.IPCrawler;
 
 import com.ybj.cbt.model.IPBean;
 import com.ybj.cbt.model.IPBeanList;
-import com.ybj.cbt.model.Website;
-import com.ybj.cbt.utils.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
@@ -57,18 +56,47 @@ public class IPCrawler {
         return availableIPList;
     }
 
+    public static void pushSingleAvailableIP(IPBean ipBean) {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean valid = IPUtils.isValid(ipBean);
+                if (valid == true) {
+                    IPBeanList.add(ipBean);
+                }
+                IPBeanList.increase();
+            }
+        }).start();
+
+    }
+
     public static List<IPBean> getIPBeanList(String urlString, int pageNumber) throws IOException {
         List<IPBean> ipBeanList=new LinkedList<>();
         for(int i=1; i<=pageNumber;i++){
-            ipBeanList.addAll(startCrawl(urlString+i));
+            ipBeanList.addAll(startCrawl(urlString + i));
         }
         return ipBeanList;
     }
 
+
     public static List<IPBean> startCrawl(String  urlString) throws IOException {
         List<IPBean> ipBeanList = new LinkedList<>();
         URL url = new URL(urlString);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        HttpURLConnection conn = null;
+        Proxy proxy = null;
+        if (IPBeanList.getSize() != 0) {
+            List<IPBean> ipBeanList1 = IPBeanList.getIpBeanList();
+            String ipAddress = ipBeanList1.get(0).getIPAddress();
+            Integer ipPosrt = ipBeanList1.get(0).getIpPosrt();
+            proxy = new Proxy(java.net.Proxy.Type.HTTP, new InetSocketAddress(ipAddress, ipPosrt));
+        }
+        if (proxy != null) {
+            conn = (HttpURLConnection) url.openConnection(proxy);
+
+        } else {
+            conn = (HttpURLConnection) url.openConnection();
+        }
         conn.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.81 Safari/537.36");
 
         String urlSource = IOUtils.toString(conn.getInputStream(), "utf-8");
@@ -88,7 +116,42 @@ public class IPCrawler {
         return ipBeanList;
     }
 
+    public static List<IPBean> startCrawlWithProxy(String urlString) throws IOException {
+        List<IPBean> ipBeanList = new LinkedList<>();
+        URL url = new URL(urlString);
+        HttpURLConnection conn = null;
+        Proxy proxy = null;
+        if (IPBeanList.getSize() != 0) {
+            List<IPBean> ipBeanList1 = IPBeanList.getIpBeanList();
+            String ipAddress = ipBeanList1.get(0).getIPAddress();
+            Integer ipPosrt = ipBeanList1.get(0).getIpPosrt();
+            proxy = new Proxy(java.net.Proxy.Type.HTTP, new InetSocketAddress(ipAddress, ipPosrt));
+        }
+        if (proxy != null) {
+            conn = (HttpURLConnection) url.openConnection(proxy);
 
+        } else {
+            conn = (HttpURLConnection) url.openConnection();
+        }
+        conn.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.81 Safari/537.36");
+
+        String urlSource = IOUtils.toString(conn.getInputStream(), "utf-8");
+        Document doc = Jsoup.parse(urlSource);
+        Elements elements = doc.select("tr");
+        for (int i = 0; i < elements.size(); i++) {
+            if (i == 0) {
+                continue;
+            }
+            IPBean ipBean = new IPBean();
+            String ipAddress = elements.get(i).children().get(1).text();
+            Integer ipPort = Integer.valueOf(elements.get(i).children().get(2).text().trim());
+            ipBean.setIPAddress(ipAddress);
+            ipBean.setIpPosrt(ipPort);
+            ipBeanList.add(ipBean);
+            pushSingleAvailableIP(ipBean);
+        }
+        return ipBeanList;
+    }
 
 
 }
