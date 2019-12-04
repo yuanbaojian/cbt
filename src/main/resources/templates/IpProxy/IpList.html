@@ -2,19 +2,19 @@
 <link href="assets/plugins/DataTables/extensions/Select/css/select.bootstrap.min.css" rel="stylesheet"/>
 <link href="assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css" rel="stylesheet"/>
 <link href="assets/plugins/DataTables/extensions/Scroller/css/scroller.bootstrap.min.css" rel="stylesheet"/>
-<link href="<%=request.getContextPath()%>/assets/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet"/>
-<link href="<%=request.getContextPath()%>/assets/plugins/DataTables/extensions/Scroller/css/scroller.bootstrap.min.css"
+<link href="assets/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet"/>
+<link href="assets/plugins/DataTables/extensions/Scroller/css/scroller.bootstrap.min.css"
       rel="stylesheet"/>
 
 
 <!-- ================== for datePicker BEGIN PAGE LEVEL CSS STYLE ================== -->
-<link href="<%=request.getContextPath()%>/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css"
+<link href="assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css"
       rel="stylesheet"/>
-<link href="<%=request.getContextPath()%>/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css"
+<link href="assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css"
       rel="stylesheet"/>
-<link href="<%=request.getContextPath()%>/assets/plugins/bootstrap-eonasdan-datetimepicker/build/css/bootstrap-datetimepicker.min.css"
+<link href="assets/plugins/bootstrap-eonasdan-datetimepicker/build/css/bootstrap-datetimepicker.min.css"
       rel="stylesheet"/>
-<link href="<%=request.getContextPath()%>/assets/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css"
+<link href="assets/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css"
       rel="stylesheet"/>
 <!-- ================== for timePicker BEGIN PAGE LEVEL CSS STYLE ================== -->
 
@@ -58,7 +58,7 @@
     <!-- begin row -->
     <div>
         <!-- begin page-header -->
-        <h1 class="page-header">审核文件</h1>
+        <h1 class="page-header">IP代理池</h1>
         <!-- end page-header -->
         <!-- begin panel -->
         <div id="mainId" class="panel panel-inverse" data-sortable-id="table-basic-2">
@@ -76,55 +76,23 @@
                 <h4 class="panel-title">审核文件</h4>
             </div>
             <div class="panel-body">
-                <div id="searchBox" class="row" style="width:100%">
-
-                    <label class="col-form-label">名称:</label>
-                    <div style="width:10%;">
-                        <input type="text" class="form-control" name="docName" id="docName" placeholder="输入名称"
-                               value=""/>
-                    </div>
-
-                    <label class="col-form-label">开始时间:</label>
-                    <div style="width:10%;">
-                        <input type="text" class="form-control" name="startDate" id="startDate" placeholder="输入时间"
-                               value=""/>
-                    </div>
-
-                    <label class="col-form-label">结束时间：</label>
-                    <div style="width:10%; ">
-                        <input type="text" class="form-control" name="endDate" id="endDate" placeholder="选择时间"
-                               value=""/>
-                    </div>
-
-                    <div style="float: right">
-                        <a>
-                            <button type="button" class="fa fa-search btn btn-primary"
-                                    onclick="auduitFileIndex.conditionSearch();">查询
-                            </button>
-                            <shiro:hasPermission name="quality_document_management_addDoc">
-                                <button type="button" class="fa fa-plus btn btn-primary"
-                                        onclick="auduitFileIndex.showAddFileModal();">添加文档
-                                </button>
-                            </shiro:hasPermission>
-                        </a>
-
-                    </div>
-                </div>
-
+                <a>
+                    <button type="button" class="fa fa-search btn btn-primary"
+                            onclick="IpProxyIndex.init();">查询
+                    </button>
+                </a>
                 <div class="tab-content">
                     <!-- begin tab-pane -->
                     <div class="tab-pane fade active show" id="interiorFileTable"><!--default-tab-1  -->
-                        <table id="tbl_interiorFile" class="table table-striped table-bordered text-nowrap nowrap"
+                        <table id="tbl_IpList" class="table table-striped table-bordered text-nowrap nowrap"
                                style="table-layout:fixed; text-align: center;">
                             <thead>
                             <tr>
-                                <th width="10%" class="text-nowrap">名称</th>
                                 <th width="10%" class="text-nowrap">类型</th>
-                                <th width="10%" class="text-nowrap">大小(mb)</th>
-                                <th width="10%" class="text-nowrap">备注</th>
-                                <th width="20%" class="text-nowrap">更新人</th>
-                                <th width="10%" class="text-nowrap">更新时间</th>
-                                <th width="20%" class="text-nowrap">操作</th>
+                                <th width="10%" class="text-nowrap">IP地址</th>
+                                <th width="10%" class="text-nowrap">端口</th>
+                                <th width="10%" class="text-nowrap">服务器地址</th>
+                                <th width="20%" class="text-nowrap">是否匿名</th>
                             </tr>
                             </thead>
                         </table>
@@ -142,47 +110,43 @@
 
 </div>
 
-<script src="<%=request.getContextPath()%>/assets/admin/pages/scripts/auditFile/auditFile-index.js"></script>
+<script src="assets/admin/pages/scripts/auditFile/auditFile-index.js"></script>
 
 
 <script type="text/javascript"
-        src="<%=request.getContextPath()%>/assets/plugins/bootstrap-fileinput/bootstrap-fileinput.js"></script>
+        src="assets/plugins/bootstrap-fileinput/bootstrap-fileinput.js"></script>
 <script type="text/javascript"
-        src="<%=request.getContextPath()%>/assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/assets/plugins/jquery-form/jquery.form.js"></script>
+        src="assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+<script type="text/javascript" src="assets/plugins/jquery-form/jquery.form.js"></script>
 <script type="text/javascript"
-        src="<%=request.getContextPath()%>/assets/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+        src="assets/plugins/jquery-validation/js/jquery.validate.min.js"></script>
 <script type="text/javascript"
-        src="<%=request.getContextPath()%>/assets/plugins/jquery-validation/js/jquery-validate-decimal.js"></script>
+        src="assets/plugins/jquery-validation/js/jquery-validate-decimal.js"></script>
 <script type="text/javascript"
-        src="<%=request.getContextPath()%>/assets/plugins/DataTables/media/js/jquery.dataTables.js"></script>
+        src="assets/plugins/DataTables/media/js/jquery.dataTables.js"></script>
 <script type="text/javascript"
-        src="<%=request.getContextPath()%>/assets/plugins/select2/dist/js/select2.min.js"></script>
+        src="assets/plugins/select2/dist/js/select2.min.js"></script>
 <script type="text/javascript"
-        src="<%=request.getContextPath()%>/assets/plugins/DataTables/media/js/dataTables.bootstrap.js"></script>
+        src="assets/plugins/DataTables/media/js/dataTables.bootstrap.js"></script>
 <script type="text/javascript"
-        src="<%=request.getContextPath()%>/assets/plugins/moment/moment-with-locales.min.js"></script>
+        src="assets/plugins/moment/moment-with-locales.min.js"></script>
 <script type="text/javascript"
-        src="<%=request.getContextPath()%>/assets/plugins/jquery-tooltip/tooltipsy.min.js"></script>
+        src="assets/plugins/jquery-tooltip/tooltipsy.min.js"></script>
 <script type="text/javascript"
-        src="<%=request.getContextPath()%>/assets/plugins/DataTables/extensions/Scroller/js/dataTables.scroller.min.js"></script>
+        src="assets/plugins/DataTables/extensions/Scroller/js/dataTables.scroller.min.js"></script>
 <script type="text/javascript"
-        src="<%=request.getContextPath()%>/assets/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+        src="assets/plugins/jquery-validation/js/jquery.validate.min.js"></script>
 <script type="text/javascript"
-        src="<%=request.getContextPath()%>/assets/plugins/jquery-validation/js/jquery-validate-decimal.js"></script>
+        src="assets/plugins/jquery-validation/js/jquery-validate-decimal.js"></script>
+<script type="text/javascript"
+        src="assets/js/IpProxy/IpProxy-index.js"></script>
 
 <!-- begin datetimepicker js -->
-<script src="<%=request.getContextPath()%>/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-<script src="<%=request.getContextPath()%>/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
-<script src="<%=request.getContextPath()%>/assets/plugins/bootstrap-eonasdan-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
-<script src="<%=request.getContextPath()%>/assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+<script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script src="assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="assets/plugins/bootstrap-eonasdan-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+<script src="assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
 <!-- begin datetimepicker js -->
 
 <!-- ================== END PAGE LEVEL JS ================== -->
-<script type="text/javascript">
-    var basepath = '<%=request.getContextPath()%>/';
-    var permissions = "${sessionScope.permissions}"; //获取session 存在的权限
-    $(document).ready(function () {
-        // auduitFileIndex.init(basepath, permissions);
-    });
-</script>
+

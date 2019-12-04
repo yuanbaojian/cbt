@@ -22,11 +22,17 @@ public class IPCrawler {
 
     public static void main(String[] args) throws IOException {
 
-        int pageNumber=2;
-        List<IPBean> ipBeans = getIPBeanList(HTTPS_API,pageNumber);
+        int pageNumber=1;
+        List<IPBean> ipBeans = getIPBeanList(HTTP_API,pageNumber);
         List<IPBean> availableIp = getAvailableIp(ipBeans);
         System.out.println("availableIp = " + availableIp);
 
+    }
+
+    public static List<IPBean> getIpList(String protocolType, int pageNumber) throws IOException {
+        List<IPBean> ipBeans = getIPBeanList(protocolType,pageNumber);
+        //List<IPBean> availableIp = getAvailableIp(ipBeans);
+        return ipBeans;
     }
 
     public static List<IPBean> getAvailableIp(List<IPBean> ipBeans){
@@ -107,13 +113,24 @@ public class IPCrawler {
                 continue;
             }
             IPBean ipBean = new IPBean();
-            String ipAddress = elements.get(i).children().get(1).text();
-            Integer ipPort = Integer.valueOf(elements.get(i).children().get(2).text().trim());
-            ipBean.setIPAddress(ipAddress);
-            ipBean.setIpPosrt(ipPort);
+            setIpBeanAttribute(elements, i, ipBean);
             ipBeanList.add(ipBean);
         }
         return ipBeanList;
+    }
+
+    private static void setIpBeanAttribute(Elements elements, int i, IPBean ipBean) {
+        String ipAddress = elements.get(i).children().get(1).text();
+        Integer ipPort = Integer.valueOf(elements.get(i).children().get(2).text().trim());
+        String serverAddress = elements.get(i).children().get(3).text();
+        String anonymityType = elements.get(i).children().get(4).text();
+        String protocolType = elements.get(i).children().get(5).text();
+        ipBean.setIPAddress(ipAddress);
+        ipBean.setIpPosrt(ipPort);
+        ipBean.setAnonymityType(anonymityType);
+        ipBean.setProtocolType(protocolType);
+        ipBean.setServerAddress(serverAddress);
+
     }
 
     public static List<IPBean> startCrawlWithProxy(String urlString) throws IOException {

@@ -10,6 +10,10 @@ import java.util.List;
  */
 public class Constants {
 
+
+	public static String HTTP_URL = "https://www.xicidaili.com/wt/";
+	public static String HTTPS_URL = "https://www.xicidaili.com/wn/";
+
     /// begin-----------证书维护模块依赖内容------------------------
 	public static String USER_DATA="user";
 	public static String CERTIFICATE_PATH="certificate";

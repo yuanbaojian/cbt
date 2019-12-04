@@ -9,4 +9,7 @@ public class IPBean {
 
     private String IPAddress;
     private Integer IpPosrt;
+    private String serverAddress;
+    private String anonymityType;
+    private String protocolType;
 }

@@ -1,10 +1,16 @@
 package com.ybj.cbt.controller;
 
 
+import com.ybj.cbt.common.Constants;
+import com.ybj.cbt.model.IPBean;
+import com.ybj.cbt.utils.Crawler.IPCrawler.IPCrawler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/IpProxy")
@@ -17,6 +23,14 @@ public class IpProxyController {
         modelAndView.setViewName("IpProxy/IpList");
         return modelAndView;
     }
+
+    @RequestMapping(value = "/getAllIp", method = RequestMethod.POST)
+    public List<IPBean> getAllIp() throws IOException {
+        List<IPBean> ipBeanList=null;
+        IPCrawler.getIpList(Constants.HTTPS_URL, 1);
+        return ipBeanList;
+    }
+
 
 //    @RequestMapping(value = "list",method = RequestMethod.GET)
 //    public List<Doc> getAuditFileList(
