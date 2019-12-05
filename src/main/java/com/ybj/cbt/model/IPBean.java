@@ -7,8 +7,8 @@ import lombok.Setter;
 @Getter
 public class IPBean {
 
-    private String IPAddress;
-    private Integer IpPosrt;
+    private String IpAddress;
+    private Integer IpPort;
     private String serverAddress;
     private String anonymityType;
     private String protocolType;

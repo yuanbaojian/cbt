@@ -44,7 +44,7 @@ public class IPCrawler {
                     boolean valid = IPUtils.isValid(ipBean);
                     if (valid == true) {
                         IPBeanList.add(ipBean);
-                        System.out.println("有效 = " + ipBean.getIPAddress() + "  " + ipBean.getIpPosrt());
+                        System.out.println("有效 = " + ipBean.getIpAddress() + "  " + ipBean.getIpPort());
                     }
                     IPBeanList.increase();
                 }
@@ -93,8 +93,8 @@ public class IPCrawler {
         Proxy proxy = null;
         if (IPBeanList.getSize() != 0) {
             List<IPBean> ipBeanList1 = IPBeanList.getIpBeanList();
-            String ipAddress = ipBeanList1.get(0).getIPAddress();
-            Integer ipPosrt = ipBeanList1.get(0).getIpPosrt();
+            String ipAddress = ipBeanList1.get(0).getIpAddress();
+            Integer ipPosrt = ipBeanList1.get(0).getIpPort();
             proxy = new Proxy(java.net.Proxy.Type.HTTP, new InetSocketAddress(ipAddress, ipPosrt));
         }
         if (proxy != null) {
@@ -125,8 +125,8 @@ public class IPCrawler {
         String serverAddress = elements.get(i).children().get(3).text();
         String anonymityType = elements.get(i).children().get(4).text();
         String protocolType = elements.get(i).children().get(5).text();
-        ipBean.setIPAddress(ipAddress);
-        ipBean.setIpPosrt(ipPort);
+        ipBean.setIpAddress(ipAddress);
+        ipBean.setIpPort(ipPort);
         ipBean.setAnonymityType(anonymityType);
         ipBean.setProtocolType(protocolType);
         ipBean.setServerAddress(serverAddress);
@@ -140,8 +140,8 @@ public class IPCrawler {
         Proxy proxy = null;
         if (IPBeanList.getSize() != 0) {
             List<IPBean> ipBeanList1 = IPBeanList.getIpBeanList();
-            String ipAddress = ipBeanList1.get(0).getIPAddress();
-            Integer ipPosrt = ipBeanList1.get(0).getIpPosrt();
+            String ipAddress = ipBeanList1.get(0).getIpAddress();
+            Integer ipPosrt = ipBeanList1.get(0).getIpPort();
             proxy = new Proxy(java.net.Proxy.Type.HTTP, new InetSocketAddress(ipAddress, ipPosrt));
         }
         if (proxy != null) {
@@ -162,8 +162,8 @@ public class IPCrawler {
             IPBean ipBean = new IPBean();
             String ipAddress = elements.get(i).children().get(1).text();
             Integer ipPort = Integer.valueOf(elements.get(i).children().get(2).text().trim());
-            ipBean.setIPAddress(ipAddress);
-            ipBean.setIpPosrt(ipPort);
+            ipBean.setIpAddress(ipAddress);
+            ipBean.setIpPort(ipPort);
             ipBeanList.add(ipBean);
             pushSingleAvailableIP(ipBean);
         }

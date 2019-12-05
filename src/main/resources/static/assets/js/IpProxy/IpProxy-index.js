@@ -48,8 +48,8 @@ var IpProxyIndex=function () {
                             // 填入列数据
                             "columns" : [
                                 {"data" : "protocolType","width": "20%"},
-                                {"data" : "IPAddress"},
-                                {"data" : "IpPosrt"},
+                                {"data": "IpAddress", "width": "10%"},
+                                {"data": "IpPort", "width": "10%"},
                                 {"data" : "serverAddress", "width": "20%"},
                                 {"data" : "anonymityType","width": "12%"},
 

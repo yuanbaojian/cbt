@@ -9,7 +9,7 @@ import java.net.*;
 public class IPUtils {
 
     public static boolean isValid(IPBean ipBean) {
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ipBean.getIPAddress(), ipBean.getIpPosrt()));
+        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ipBean.getIpAddress(), ipBean.getIpPort()));
         try {
             URLConnection httpCon = new URL("https://www.baidu.com/").openConnection(proxy);
             httpCon.setConnectTimeout(5000);
@@ -26,8 +26,8 @@ public class IPUtils {
     @Test
     public void testValid() {
         IPBean ipBean = new IPBean();
-        ipBean.setIPAddress("121.226.188.111");
-        ipBean.setIpPosrt(9999);
+        ipBean.setIpAddress("121.226.188.111");
+        ipBean.setIpPort(9999);
         boolean valid = isValid(ipBean);
         System.out.println("valid = " + valid);
     }

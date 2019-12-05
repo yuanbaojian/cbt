@@ -27,7 +27,7 @@ public class IpProxyController {
     @RequestMapping(value = "/getAllIp", method = RequestMethod.POST)
     public List<IPBean> getAllIp() throws IOException {
         List<IPBean> ipBeanList=null;
-        IPCrawler.getIpList(Constants.HTTPS_URL, 1);
+        ipBeanList = IPCrawler.getIpList(Constants.HTTPS_URL, 1);
         return ipBeanList;
     }
 
