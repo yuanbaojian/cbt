@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 
 class FileUtilsTest {
 
@@ -50,6 +51,19 @@ class FileUtilsTest {
         File newFile=new File(filePath);
 //        newFile.createNewFile();
         System.out.println("newFile.getParent() = " + (filePath instanceof String));
+    }
+
+
+    @Test
+    public void testConvert() {
+        Date startDate = new Date();
+        System.out.println("开始时间 " + startDate.toString());
+        String vidoePath = "C:\\Users\\baojian.yuan\\Desktop\\test\\bigAviFile.avi";
+        String targetPath = "C:\\Users\\baojian.yuan\\Desktop\\test\\bigMp4File.mp4";
+        FileUtils.copyFile(vidoePath, targetPath);
+        Date endDate = new Date();
+        System.out.println("结束时间 " + endDate.toString());
+        System.out.println("花费时间  " + (endDate.getTime() - startDate.getTime()) / 1000 + " 秒");
     }
 
 
