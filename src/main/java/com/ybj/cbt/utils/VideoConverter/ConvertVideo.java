@@ -140,36 +140,17 @@ public class ConvertVideo {
         commend.add("E:\\001.sofaware_ybj\\ffmpeg-20191204-d5274f8-win64-static\\bin\\ffmpeg.exe");
         commend.add("-i");
         commend.add(videoPath);
-        commend.add("-c:v");
-        commend.add("libx265");
-        // commend.add(" -acodec ");
-        // commend.add("codec");
-        commend.add("-crf");
-        commend.add("28");
-        commend.add("-c:a");
-        commend.add("aac");
-        commend.add("-b:a");
-        commend.add("128k");
-        commend.add("-filter:v");
-        commend.add("scale=650:-2,format=yuv420p");
-
-        // 清晰度 -qscale 4 为最好可是文件大, -qscale 6就可以了
-        commend.add("-tag:v");
-        commend.add("hvc1");
-        commend.add("-movflags");
-        commend.add("+faststart");
-
-        //-i input -c:v libx265 -crf 28 -c:a aac -b:a 128k -filter:v "scale=650:-2,format=yuv420p" -tag:v hvc1 -movflags +faststart output.mp4
-
-
-        // commend.add("-b");
-        // commend.add("768");
-        // commend.add("230");
-        // commend.add("-s");
-        // commend.add("352x240");
-        // commend.add("-r");
-        // commend.add("29.97");
-//        commend.add("-y");
+        commend.add("-oac");
+        commend.add("mp3lame");
+        commend.add("-lameopts");
+        commend.add("preset=64");
+        commend.add("-ovc");
+        commend.add("xvid");
+        commend.add("-xvidencopts");
+        commend.add("bitrate=600");
+        commend.add("-of");
+        commend.add("avi");
+        commend.add("-o");
         commend.add(targetPath);
         System.out.println(commend);
         try {
