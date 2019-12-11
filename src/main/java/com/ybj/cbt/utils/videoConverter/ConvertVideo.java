@@ -1,4 +1,4 @@
-package com.ybj.cbt.utils.VideoConverter;
+package com.ybj.cbt.utils.videoConverter;
 
 import java.io.BufferedReader;
 import java.io.File;
