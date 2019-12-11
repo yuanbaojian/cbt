@@ -20,8 +20,7 @@ public class GetBusInfo {
     public static void main(String[] args) throws Exception {
         String path = "https://shanghaicity.openservice.kankanews.com/public/bus/Getstop?stoptype=0&stopid=10.&sid=7019f275eae92b302744ade1ac88763a";
         BusInfo busInfo = HttpURLConnection_GET(path);
-        System.out.println("亲，759还有" + Long.valueOf(busInfo.getTime()) / 60 + "分钟到达顾戴路秀波路 ,距离："
-                + busInfo.getDistance() + "m");
+        System.out.println("亲，759还有 " + Long.valueOf(busInfo.getTime()) / 60 + " 分钟到达顾戴路秀波路 ,距离：" + busInfo.getDistance() + "m");
     }
 
 
