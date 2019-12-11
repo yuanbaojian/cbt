@@ -73,17 +73,22 @@
                            data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                     </div>
                 </div>
-                <h4 class="panel-title">审核文件</h4>
+                <h4 class="panel-title">Ip池</h4>
             </div>
             <div class="panel-body">
-                <a>
-                    <button type="button" class="fa fa-search btn btn-primary"
-                            onclick="IpProxyIndex.init();">查询
-                    </button>
-                </a>
                 <div class="tab-content">
                     <!-- begin tab-pane -->
-                    <div class="tab-pane fade active show" id="interiorFileTable"><!--default-tab-1  -->
+                    <div class="tab-pane fade active show"><!--default-tab-1  -->
+                        <div style="width:100%;margin-bottom:10px">
+                            <div class="panel-heading-btn">
+                                <a>
+                                    <button type="button" class="fa fa-search btn btn-primary"
+                                            onclick="IpProxyIndex.init();">查询
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+
                         <table id="tbl_IpList" class="table table-striped table-bordered text-nowrap nowrap"
                                style="table-layout:fixed; text-align: center;">
                             <thead>

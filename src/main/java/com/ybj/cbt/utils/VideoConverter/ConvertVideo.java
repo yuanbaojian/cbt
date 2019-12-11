@@ -140,17 +140,25 @@ public class ConvertVideo {
         commend.add("E:\\001.sofaware_ybj\\ffmpeg-20191204-d5274f8-win64-static\\bin\\ffmpeg.exe");
         commend.add("-i");
         commend.add(videoPath);
-        commend.add("-oac");
-        commend.add("mp3lame");
-        commend.add("-lameopts");
-        commend.add("preset=64");
-        commend.add("-ovc");
-        commend.add("xvid");
-        commend.add("-xvidencopts");
-        commend.add("bitrate=600");
-        commend.add("-of");
-        commend.add("avi");
-        commend.add("-o");
+//        ffmpeg -i input.avi -c:v libx264 -crf 19 -preset slow -c:a aac -b:a 192k -ac 2 out.mp4
+        commend.add("-c:v");
+        commend.add("libx264");
+
+        commend.add("-crf");
+        commend.add("19");
+
+        commend.add("-preset");
+        commend.add("ultrafast");
+
+        commend.add("-c:a");
+        commend.add("aac");
+
+        commend.add("-b:a");
+        commend.add("192k");
+
+        commend.add("-ac");
+        commend.add("2");
+
         commend.add(targetPath);
         System.out.println(commend);
         try {
