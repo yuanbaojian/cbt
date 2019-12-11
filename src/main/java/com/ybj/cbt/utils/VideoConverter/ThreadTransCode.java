@@ -34,7 +34,7 @@ public class ThreadTransCode implements Runnable {
         Date startDate = new Date();
         System.out.println("开始时间 " + startDate.toString());
         String vidoePath = "C:\\Users\\baojian.yuan\\Desktop\\test\\bigAviFile.avi";
-        String targetPath = "C:\\Users\\baojian.yuan\\Desktop\\test\\bigMp4File.mp4";
+        String targetPath = "C:\\Users\\baojian.yuan\\Desktop\\test\\bigAviFile.mp4";
         ConvertVideo cv = new ConvertVideo(vidoePath, targetPath);
         cv.process();
         Date endDate = new Date();
