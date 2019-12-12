@@ -1,13 +1,9 @@
 package com.ybj.cbt.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.HashMap;
 import java.util.Map;
 
-@Setter
-@Getter
+
 public class JsonResult {
 	private int code;
 	private Map<String, Object> data;
@@ -39,5 +35,19 @@ public class JsonResult {
 		return null;
 	}
 
+	public int getCode() {
+		return code;
+	}
 
+	public void setCode(int code) {
+		this.code = code;
+	}
+
+	public Map<String, Object> getData() {
+		return data;
+	}
+
+	public void setData(Map<String, Object> data) {
+		this.data = data;
+	}
 }
