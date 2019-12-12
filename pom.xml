@@ -23,14 +23,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <tomcat.version>8.5.43</tomcat.version>
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.1</version>
+            <version>3.1.0</version>
             <scope>provided</scope>
         </dependency>
 
@@ -50,7 +50,7 @@
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>2.1.0</version>
+            <version>2.1.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -97,11 +97,6 @@
                     <groupId>org.junit.vintage</groupId>
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
-<!--                去除自带的javax.servlet-->
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
-                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -147,7 +142,7 @@
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring-boot-starter</artifactId>
-            <version>1.4.1</version>
+            <version>1.4.2</version>
         </dependency>
         <dependency>
             <groupId>org.apache.shiro</groupId>
@@ -215,7 +210,7 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.12.1</version>
+            <version>1.11.3</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
