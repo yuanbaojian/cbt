@@ -1,5 +1,6 @@
 package com.ybj.cbt.Learn.ThinkingInJava.Ch18.FIleDownload;
 
+import com.ybj.cbt.model.BusInfo;
 import org.apache.commons.io.IOUtils;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONObject;

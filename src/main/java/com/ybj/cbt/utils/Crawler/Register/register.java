@@ -1,9 +1,6 @@
 package com.ybj.cbt.utils.Crawler.Register;
 
-import com.ybj.cbt.Learn.ThinkingInJava.Ch18.FIleDownload.BusInfo;
 import org.apache.commons.io.IOUtils;
-import org.springframework.boot.configurationprocessor.json.JSONArray;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
