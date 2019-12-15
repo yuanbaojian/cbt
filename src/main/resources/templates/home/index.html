@@ -210,6 +210,7 @@
                     <ul class="sub-menu">
                         <li><a href="javascript:navigateModule('IpProxy/index')">IP代理</a></li>
                         <li><a href="javascript:navigateModule('IpProxy/index')">公交到站</a></li>
+                        <li><a href="javascript:ajaxRequest('response/httpRequest')">response</a></li>
                     </ul>
                 </li>
 				<li class="has-sub"><a href="javascript:"> <b class="caret"></b> <i class="fa fa-cogs"></i> <span>系统管理</span></a>
@@ -405,23 +406,6 @@
 
 <script>
     $(document).ready(function () {
-        var loginName_user = $("#loginName_user").val();
-        if (loginName_user == "admin") {
-            $(".adminUser").show();
-        } else {
-            $(".adminUser").hide();
-        }
-        $.ajaxSetup({
-            contentType: "application/x-www-form-urlencoded;charset=utf-8",
-            complete: function (XMLHttpRequest, textStatus) {
-                //通过XMLHttpRequest取得响应头，sessionstatus
-                var sessionStatus = XMLHttpRequest.getResponseHeader("sessionStatus");
-                if (sessionStatus == "timeout") {
-                    //这里怎么处理在你，这里跳转的登录页面
-                    window.location.href = "${BASEPATH}home";
-                }
-            }
-        });
         App.init();
         indexInit();
     });
@@ -477,6 +461,17 @@
             }
         });
     }
+
+    function ajaxRequest(url){
+        $.ajax({
+            url:url,
+            type:"post",
+            success:function () {
+
+            }
+        })
+    }
+
 </script>
 </body>
 </html>

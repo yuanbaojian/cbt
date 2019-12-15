@@ -109,6 +109,16 @@ var IpProxyIndex=function () {
             });
         },
 
+        response:function (url) {
+            $.ajax({
+                url:url,
+                type:"post",
+                success:function () {
+                    
+                }
+            })
+        }
+
 
 
 
