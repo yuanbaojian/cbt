@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class IpProxyController {
     }
 
     @RequestMapping(value = "/getAllIp", method = RequestMethod.POST)
-    public List<IPBean> getAllIp() throws IOException {
+    public List<IPBean> getAllIp(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<IPBean> ipBeanList=null;
         ipBeanList = IPCrawler.getIpList(Constants.HTTPS_URL, 1);
         return ipBeanList;

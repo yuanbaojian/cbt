@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+
+<style>
+    .col-form-label-form {
+        padding-top: 7px;
+        margin-bottom: 0;
+        text-align: right;
+    }
+
+    .btnDiv{
+        width:100px;
+        height:50px;
+        border:1px solid white;
+    }
+
+    .fc-content{
+        cursor: pointer;
+    }
+
+    .fc-past-day{
+        background-color: #e9ecef;
+        background-size:1rem 1rem !important;
+    }
+    .fc-day-grid-event .fc-time{
+        display: block;
+    }
+    .fc-event{
+        border-radius: .25rem !important;
+    }
+
+</style>
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="assets/plugins/fullcalendar/fullcalendar.print.css" rel="stylesheet" media='print' />
+<link href="assets/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" />
+<link href="assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="assets/plugins/DataTables/extensions/Select/css/select.bootstrap.min.css" rel="stylesheet" />
+<link href="assets/plugins/DataTables/extensions/Scroller/css/scroller.bootstrap.min.css" rel="stylesheet" />
+<link href="assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css" rel="stylesheet" />
+<link href="assets/plugins/jstree/dist/themes/default/style.min.css" rel="stylesheet" />
+<link href="assets/plugins/jstree/dist/themes/default/style.min.css" rel="stylesheet" />
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+
+<!-- ================== BEGIN BASE JS ================== -->
+<script src="assets/plugins/pace/pace.min.js"></script>
+<!-- ================== END BASE JS ================== -->
+
+
+
+
+<!-- begin #content -->
+<div id="content"  >
+
+    <!-- end breadcrumb -->
+    <!-- begin page-header -->
+    <h1 class="page-header">教学内容日历 <small>以日历形式查看教学内容</small></h1>
+    <!-- end page-header -->
+
+    <hr class="bg-grey-lighter" />
+
+    <!-- begin vertical-box -->
+    <div class="vertical-box">
+
+        <div class="vertical-box-column p-r-30 d-none d-lg-table-cell" style="width: 215px">
+            <div id="external-events" class="fc-event-list">
+                <h5 class="m-t-0 m-b-15">颜色示例</h5>
+                <div class="fc-event">
+                    <div class="fc-event-icon"><i class="fa fa-circle fa-fw f-s-9 " style='color: #ffc241'></i></div>
+                    未签到课程
+                </div>
+                <div class="fc-event" ><div class="fc-event-icon"><i class="fa fa-circle fa-fw f-s-9  " style="color: #1dc9b7"></i></div>已签到课程</div>
+                <div class="fc-event" ><div class="fc-event-icon"><i class="fa fa-circle fa-fw f-s-9 " style="color: #886ab5"></i></div> 非自身课程</div>
+
+            </div>
+        </div>
+
+        <!-- begin calendar -->
+        <div id="calendar" class="vertical-box-column calendar"></div>
+        <!-- end calendar -->
+    </div>
+    <!-- end vertical-box -->
+</div>
+
+<div id="btnDiv"  style="position:absolute;display:none;border:0px">
+    <button id="goToTeach" onclick="calendar.coachSignIn()" type="button" class="btn btn-warning" >签到</button>
+</div>
+</div>
+<!-- end #content -->
+
+
+
+<!-- ================== BEGIN PAGE LEVEL JS ================== -->
+<script src="assets/plugins/fullcalendar/lib/moment.min.js"></script>
+<script src="assets/plugins/fullcalendar/fullcalendar.min.js"></script>
+<script src="assets/plugins/fullcalendar/locale-all.js"></script>
+<script src="assets/plugins/moment/moment.min.js"></script>
+<script src="assets/js/calendar/calendar.js"></script>
+<script src="assets/plugins/DataTables/media/js/jquery.dataTables.js"></script>
+<script src="assets/plugins/DataTables/media/js/dataTables.bootstrap.js"></script>
+<script src="assets/plugins/jstree/dist/jstree.min.js"></script>
+<!-- ================== END PAGE LEVEL JS ================== -->
+
+
+
+
+<script>
+    $(document).ready(function() {
+        calendar.init();
+    });
+</script>
+
+

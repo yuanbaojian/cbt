@@ -9,8 +9,12 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * 文件操作工具类
@@ -726,6 +730,28 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 			throw new IOException("无法删除:" + file.getName());
 		}
 		return result;
+	}
+
+	/** 通过response下载本地文件
+	 * @param response
+	 * @param path
+	 * @throws IOException
+	 * @throws URISyntaxException
+	 */
+	public static void  downloadLocalFile(HttpServletResponse response , String path) throws IOException, URISyntaxException {
+		Path file= Paths.get(path);
+		if(Files.exists(file)){
+			response.setContentType("APPLICATION/OCTET-STREAM");
+			response.addHeader("Content-Disposition", "attachment; filename="+  URLEncoder.encode(FileNameUtils.getName(path), "UTF-8") );
+			try
+			{
+				Files.copy(file, response.getOutputStream());
+				response.getOutputStream().flush();
+			}
+			catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
 	}
 }
 
