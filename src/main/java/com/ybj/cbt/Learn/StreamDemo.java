@@ -31,4 +31,5 @@ public class StreamDemo {
     public void test2(){
 
     }
+    
 }
