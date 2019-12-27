@@ -1,5 +1,8 @@
 package com.ybj.cbt.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * @Author BusInfo
  * @Description //TODO $
@@ -8,6 +11,8 @@ package com.ybj.cbt.model;
  * @return $
  **/
 
+@Getter
+@Setter
 public class BusInfo {
 
     String attributes;
@@ -16,43 +21,4 @@ public class BusInfo {
     String distance;
     String time;
 
-    public String getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(String attributes) {
-        this.attributes = attributes;
-    }
-
-    public String getTerminal() {
-        return terminal;
-    }
-
-    public void setTerminal(String terminal) {
-        this.terminal = terminal;
-    }
-
-    public long getStopdis() {
-        return stopdis;
-    }
-
-    public void setStopdis(long stopdis) {
-        this.stopdis = stopdis;
-    }
-
-    public String getDistance() {
-        return distance;
-    }
-
-    public void setDistance(String distance) {
-        this.distance = distance;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
 }

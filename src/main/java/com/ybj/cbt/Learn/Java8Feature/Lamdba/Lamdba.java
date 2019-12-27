@@ -14,35 +14,30 @@ public abstract class Lamdba {
         list.add("hello ");
         list.add("world ");
         list.add("!!! ");
-        list.forEach(word -> System.out.println("word = " + word));
+        list.forEach(word -> System.out.println("word = " + word ));
     }
 
-    @Test
-    public void testWithAnonymousClass(){
-        Traverse traverse= new Traverse(){
 
-            @Override
-            public void traverseList() {
-                System.out.println(" = " );
-            }
-        };
-        traverse.traverseList();
 
-    }
-
+//    抽象类不能在@Test里 实例化， 所以放在main中测试
   public static void main(String[] args) {
-      Traverse traverse= new Traverse(){
+      List list=new LinkedList<String>();
+      list.add("hello ");
+      list.add("world ");
+      list.add("!!! ");
 
+      Traverse traverse= new Traverse(){
           @Override
-          public void traverseList() {
-              System.out.println(" = " );
+          public void traverseList(List list) {
+              for (Object o : list) {
+                System.out.println("o = " + o);
+              }
           }
       };
-      traverse.traverseList();
+      traverse.traverseList(list);
   }
 }
 
-@FunctionalInterface
 interface  Traverse{
-    public abstract void traverseList();
+    public abstract void traverseList(List list);
 }

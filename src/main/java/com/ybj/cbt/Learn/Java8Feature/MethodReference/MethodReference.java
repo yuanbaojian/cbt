@@ -17,6 +17,8 @@ public class MethodReference {
     interface Sayable{
         void say();
     }
+
+
     public static void saySomething(){
         System.out.println("Hello, this is static method.");
     }
