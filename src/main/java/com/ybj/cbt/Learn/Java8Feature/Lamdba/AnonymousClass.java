@@ -2,10 +2,13 @@ package com.ybj.cbt.Learn.Java8Feature.Lamdba;
 
 import org.junit.Test;
 
-import javax.lang.model.SourceVersion;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.function.Consumer;
 
 public class AnonymousClass {
 
@@ -27,16 +30,35 @@ public class AnonymousClass {
                 System.out.println("Howdy, world!");
             }
         };
-
         r.run();
 
     }
 
   @Test
   public void testL() {
-//       相当于 构造函数， 没有传参？？？
         Runnable r2 = () -> System.out.println("Howdy, world!");
         r2.run();
+    }
+
+    @Test
+    public void testComparator(){
+        List list=new LinkedList<Integer>();
+        list.add(1);
+        list.add(4);
+        list.add(7);
+        list.add(2);
+        list.add(3);
+        list.add(9);
+
+        list.sort(new Comparator() {
+            @Override
+            public int compare(Object o1, Object o2) {
+                return (Integer) o2 - (Integer) o1;
+            }
+        });
+        System.out.println("list = " + list);
+        list.forEach((Consumer<Integer>) o -> System.out.println("o = " + o));
+
     }
 
 

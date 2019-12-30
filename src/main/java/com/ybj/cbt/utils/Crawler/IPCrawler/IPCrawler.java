@@ -25,6 +25,9 @@ public class IPCrawler {
         int pageNumber=1;
         List<IPBean> ipBeans = getIPBeanList(HTTP_API,pageNumber);
         List<IPBean> availableIp = getAvailableIp(ipBeans);
+        for (IPBean ipBean : availableIp) {
+          System.out.println("ipBean.toString() = " + ipBean.toString());
+        }
         System.out.println("availableIp = " + availableIp);
 
     }

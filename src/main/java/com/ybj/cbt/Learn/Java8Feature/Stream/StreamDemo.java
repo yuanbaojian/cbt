@@ -1,15 +1,14 @@
 package com.ybj.cbt.Learn.Java8Feature.Stream;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.catalina.mapper.Mapper;
 import org.junit.Test;
-import sun.security.ssl.Debug;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -109,19 +108,22 @@ public class StreamDemo {
 
     @Test
     public void testStream(){
-        List<Person> personList=new LinkedList<>();
+        List<Person> personList=new ArrayList<>();
         personList.add(new Person("张三", 10) );
         personList.add(new Person("李四", 23) );
+        personList.add(new Person("李1", 20) );
+        personList.add(new Person("李2", 33) );
+        personList.add(new Person("李3", 21) );
         personList.add(new Person("王五", 29) );
         personList.add(new Person("王二麻子", 28) );
 
         List<Person>  list=personList.stream()
                 //1.过滤， 留下满足条件的元素
-                .filter(person -> person.getAge()>18)
+                .filter(person -> person.getAge() > 18)
                 //2.排序， 根据条件排序
-                .sorted(  (person1, person2) -> person1.getAge()> person2.getAge() ?1:-1 )
+                .sorted((person1, person2) -> person1.getAge() > person2.getAge() ? 1 : -1)
                 //3.处理， 对每个元素进行处理
-                .map(person -> new Person( "他是" + person.getName(), person.getAge()))
+                .map(person -> new Person("他是" + person.getName(), person.getAge()))
                 //4.收集， 把流转换成外部实体
                 .collect(Collectors.toList());
         for (Person person : list) {
@@ -137,23 +139,11 @@ public class StreamDemo {
         personList.add(new Person("李四", 13) );
         personList.add(new Person("王五", 29) );
         personList.add(new Person("王二麻子", 28) );
-
         List<Person> personList1 = personList.stream()
                 .distinct()
                 // 1.过滤， 留下满足条件的元素
-                .filter(
-                        new Predicate<Person>() {
-                            @Override
-                            public boolean test(Person person) {
-                                return person.getAge() > 18;
-                            }
-                        })
-                .sorted(new Comparator<Person>() {
-                    @Override
-                    public int compare(Person o1, Person o2) {
-                        return o1.age > o2.age ? 1 : -1;
-                    }
-                })
+                .filter(person -> person.getAge() > 18)
+                .sorted((o1, o2) -> o1.age > o2.age ? 1 : -1)
                 .collect(Collectors.toList());
         for (Person person : personList1) {
           System.out.println("person.toString() = " + person.toString());

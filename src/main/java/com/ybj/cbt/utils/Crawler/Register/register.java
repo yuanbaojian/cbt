@@ -15,7 +15,7 @@ import java.net.URL;
 public class register {
 
     public static void main(String[] args) throws Exception {
-        String path="http://t66y.com/register.php?reginvcode=5812e618b2545ebe&validate=7tpf&action=reginvcodeck";
+        String path="";
         URL url=new URL(path);
         HttpURLConnection conn=(HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
