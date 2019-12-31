@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public abstract class Lamdba {
 
@@ -17,7 +18,7 @@ public abstract class Lamdba {
         list.add("world ");
         list.add("!!! ");
         // 基本上 重写并调用 accept方法
-        list.forEach(word -> System.out.println("word = " + word ));
+        list.forEach(word -> System.out.println("word = " + word));
     }
 
 
