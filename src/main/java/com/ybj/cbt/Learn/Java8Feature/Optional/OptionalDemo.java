@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.junit.Test;
 
 import java.util.Optional;
+import java.util.function.Function;
 
 import static org.junit.Assert.assertFalse;
 
@@ -88,6 +89,7 @@ public class OptionalDemo {
     // 4.使用optional自带的静态方法
     public static void printPersonAddressV4(Person person){
         Optional<Address> addressOptional= Optional.ofNullable(person.getAddress());
+        // 5.可使用方法引用
         Optional<String> location=addressOptional.map(address -> address.getLocation());
         location.ifPresent(name -> System.out.println("name = " + name.toLowerCase()));
     }
