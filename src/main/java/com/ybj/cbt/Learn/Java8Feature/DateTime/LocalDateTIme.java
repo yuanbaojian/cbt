@@ -48,6 +48,7 @@ public class LocalDateTIme {
         LocalDateTime localDateTime=LocalDateTime.now();
         System.out.println("localDateTime = " + localDateTime);
         //localDateTime = 2019-12-23T22:22:32.358
+//        LocalDateTime localDateTime2=LocalDateTime.parse("2019-12-23T22:22:32.358", DateTimeFormatter.of)
 
         LocalDateTime localDateTime1=LocalDateTime.of(2011,1,1,1,1,1);
         System.out.println("localDateTime1 = " + localDateTime1);

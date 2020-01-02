@@ -19,20 +19,8 @@ import static org.junit.Assert.assertFalse;
 public class OptionalDemo {
 
 
-    @Test
-    public void test(){
-        Optional optional=Optional.of(1);
-        optional.isPresent();
-    }
 
-    /**
-    *  创建 可选对象
-    * */
-    @Test
-    public void whenCreatesEmptyOptional_thenCorrect() {
-        Optional<String> empty = Optional.empty();
-        assertFalse("空的",empty.isPresent());
-    }
+
 
 
     @Test
@@ -57,12 +45,14 @@ public class OptionalDemo {
     public void testNullPointException(){
         Person person=new Person();
         person.setName("张三");
-        Address address=new Address();
-        address.setLocation("EARTH");
-        person.setAddress(address);
-        OptionalDemo.printPersonAddressV4(person);
-    }
 
+//        Address address=new Address();
+//        address.setLocation("EARTH");
+//
+//        person.setAddress(address);
+
+        OptionalDemo.printPersonAddressV1(person);
+    }
 
 
     // 1. 没有空指针处理
@@ -70,6 +60,7 @@ public class OptionalDemo {
         String location=person.getAddress().getLocation();
         System.out.println("地址： " + location.toLowerCase());
     }
+
 
     //2.  进行显式null判断
     public static void printPersonAddressV2(Person person){
@@ -93,6 +84,8 @@ public class OptionalDemo {
         }
     }
 
+
+    // 4.使用optional自带的静态方法
     public static void printPersonAddressV4(Person person){
         Optional<Address> addressOptional= Optional.ofNullable(person.getAddress());
         Optional<String> location=addressOptional.map(address -> address.getLocation());
@@ -117,5 +110,4 @@ class Person{
 @Setter
 class Address{
     String location;
-
 }
