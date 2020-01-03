@@ -5,4 +5,5 @@ public class Dog implements Animal {
     public void move(String name) {
         System.out.println(name + "是一只狗," +"用腿跑");
     }
+
 }

@@ -1,16 +1,15 @@
 package com.ybj.cbt.Learn.Java8Feature.Lamdba;
 
 import com.ybj.cbt.Learn.Java8Feature.Lamdba.InterfaceDemo.Animal;
+import com.ybj.cbt.Learn.Java8Feature.Lamdba.InterfaceDemo.AnimalDetail;
 import org.junit.Test;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class AnonymousClass {
 
@@ -25,6 +24,7 @@ public class AnonymousClass {
             }
         });
     }
+
 
     @Test
     public void testComparator(){
@@ -43,26 +43,17 @@ public class AnonymousClass {
             }
         });
         System.out.println("list = " + list);
-        list.forEach((Consumer<Integer>) o -> System.out.println("o = " + o));
+        list.forEach( o -> System.out.println("o = " + o));
 
     }
-
-
 
     public static void main(String[] args) {
-        animalMove(new Animal() {
+        AnimalDetail.animalMove(new Animal() {
             @Override
             public void move(String name) {
-                System.out.println(name + "是一只狗," +"用腿跑");
+                System.out.println("name = " + name);
             }
         });
-    }
-
-
-    //     1.形参是 类对象 的静态方法
-    static void animalMove(Animal animal){
-        // 2.调用形参的 一个方法
-        animal.move("旺财");
     }
 
 }

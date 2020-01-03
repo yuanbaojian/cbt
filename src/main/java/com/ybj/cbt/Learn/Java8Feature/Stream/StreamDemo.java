@@ -119,7 +119,12 @@ public class StreamDemo {
 
         List<Person>  list=personList.stream()
                 //1.过滤， 留下满足条件的元素
-                .filter(person -> person.getAge() > 18)
+                .filter(new Predicate<Person>() {
+                    @Override
+                    public boolean test(Person person) {
+                        return person.getAge() > 18;
+                    }
+                })
                 //2.排序， 根据条件排序
                 .sorted((person1, person2) -> person1.getAge() > person2.getAge() ? 1 : -1)
                 //3.处理， 对每个元素进行处理
