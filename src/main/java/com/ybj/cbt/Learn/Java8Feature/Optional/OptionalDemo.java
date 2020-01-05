@@ -46,12 +46,9 @@ public class OptionalDemo {
     public void testNullPointException(){
         Person person=new Person();
         person.setName("张三");
-
 //        Address address=new Address();
 //        address.setLocation("EARTH");
-//
 //        person.setAddress(address);
-
         OptionalDemo.printPersonAddressV1(person);
     }
 
@@ -74,7 +71,7 @@ public class OptionalDemo {
         }
     }
 
-    //3.  使用  isPresent()
+    //3.  使用  isPresent()  [隐式判断null]
     public static void printPersonAddressV3(Person person){
         Optional<Address> addressOptional= Optional.ofNullable(person.getAddress());
         if(addressOptional.isPresent()){
@@ -89,7 +86,6 @@ public class OptionalDemo {
     // 4.使用optional自带的静态方法
     public static void printPersonAddressV4(Person person){
         Optional<Address> addressOptional= Optional.ofNullable(person.getAddress());
-        // 5.可使用方法引用
         Optional<String> location=addressOptional.map(address -> address.getLocation());
         location.ifPresent(name -> System.out.println("name = " + name.toLowerCase()));
     }

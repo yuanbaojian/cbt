@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.junit.Test;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -117,14 +118,9 @@ public class StreamDemo {
         personList.add(new Person("王五", 29) );
         personList.add(new Person("王二麻子", 28) );
 
-        List<Person>  list=personList.stream()
+        List<Person>  list=personList.parallelStream()
                 //1.过滤， 留下满足条件的元素
-                .filter(new Predicate<Person>() {
-                    @Override
-                    public boolean test(Person person) {
-                        return person.getAge() > 18;
-                    }
-                })
+                .filter(person -> person.getAge() > 18)
                 //2.排序， 根据条件排序
                 .sorted((person1, person2) -> person1.getAge() > person2.getAge() ? 1 : -1)
                 //3.处理， 对每个元素进行处理
